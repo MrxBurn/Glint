@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glint/authentication/login/login.dart';
+import 'package:glint/utils/variables.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -29,6 +30,16 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        inputDecorationTheme: const InputDecorationTheme(
+          labelStyle: TextStyle(color: Colors.grey),
+          focusedBorder: UnderlineInputBorder(
+            borderSide:
+                BorderSide(style: BorderStyle.solid, color: Colors.black),
+          ),
+        ),
+        textSelectionTheme: TextSelectionThemeData(cursorColor: darkGreen),
+      ),
       home: Scaffold(
         body: Stack(
           fit: StackFit.expand,

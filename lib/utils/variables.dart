@@ -13,3 +13,7 @@ BorderRadius borderRadius = const BorderRadius.all(Radius.circular(12));
 TextStyle headerStyle = const TextStyle(fontSize: 24, color: Colors.black);
 
 Color lightPink = const Color(0xffff7978);
+
+Color darkGreen = const Color(0xff1F363D);
+
+TextStyle fontSize12 = const TextStyle(fontSize: 14);
