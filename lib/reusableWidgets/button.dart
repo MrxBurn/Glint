@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glint/utils/variables.dart';
 
 class CustomButton extends StatefulWidget {
   const CustomButton({super.key, this.onPressed});
@@ -12,6 +13,19 @@ class _CustomButtonState extends State<CustomButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        onPressed: widget.onPressed, child: const Text('Login'));
+      style: ButtonStyle(
+        backgroundColor: WidgetStatePropertyAll(darkGreen),
+        shape: WidgetStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ),
+      onPressed: widget.onPressed,
+      child: const Text(
+        'Login',
+        style: TextStyle(color: Colors.white),
+      ),
+    );
   }
 }

@@ -3,10 +3,10 @@ import 'package:glint/utils/variables.dart';
 
 class FormContainer extends StatelessWidget {
   const FormContainer(
-      {super.key, this.height = 0, this.width = 0, required this.child});
+      {super.key, this.height, this.width, required this.child});
 
-  final double height;
-  final double width;
+  final double? height;
+  final double? width;
   final Widget child;
 
   @override

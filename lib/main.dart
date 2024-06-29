@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glint/authentication/login/login.dart';
+import 'package:glint/authentication/login/register.dart';
 import 'package:glint/utils/variables.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -40,18 +40,11 @@ class _MyAppState extends State<MyApp> {
         ),
         textSelectionTheme: TextSelectionThemeData(cursorColor: darkGreen),
       ),
-      home: Scaffold(
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            SvgPicture.asset(
-              'assets/illustrations/background.svg',
-              fit: BoxFit.cover,
-            ),
-            const LoginPage()
-          ],
-        ),
-      ),
+      home: const LoginPage(),
+      routes: {
+        'loginPage': (context) => const LoginPage(),
+        'registerPage': (context) => const RegisterPage()
+      },
     );
   }
 }
