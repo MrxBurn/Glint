@@ -87,7 +87,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     controller: _confirmPasswordController,
                   ),
                   const Gap(24),
-                  const Center(child: ArrowButton())
+                  Center(
+                      child: ArrowButton(
+                    onPressed: () =>
+                        Navigator.pushNamed(context, 'yourProfileInfo'),
+                  ))
                 ],
               ),
             )),

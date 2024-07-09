@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:glint/authentication/login/login.dart';
 import 'package:glint/authentication/login/register.dart';
 import 'package:glint/utils/variables.dart';
+import 'package:glint/your_profile/your_profile_info.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -43,7 +44,8 @@ class _MyAppState extends State<MyApp> {
       home: const LoginPage(),
       routes: {
         'loginPage': (context) => const LoginPage(),
-        'registerPage': (context) => const RegisterPage()
+        'registerPage': (context) => const RegisterPage(),
+        'yourProfileInfo': (context) => const YourProfileInfo()
       },
     );
   }
