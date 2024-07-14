@@ -248,7 +248,11 @@ class _YourProfileInfoState extends State<YourProfileInfo> {
                     ),
                   ),
                   Gap(gap),
-                  const Center(child: ArrowButton())
+                  Center(
+                      child: ArrowButton(
+                    onPressed: () =>
+                        Navigator.pushNamed(context, 'yourInterests'),
+                  ))
                 ],
               ),
             ),
