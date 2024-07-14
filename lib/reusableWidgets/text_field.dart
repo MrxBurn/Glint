@@ -24,9 +24,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: TextFormField(
         cursorHeight: 16,
         decoration: InputDecoration(
-          focusedBorder:
-              const OutlineInputBorder(borderSide: BorderSide(width: 2)),
-          border: const OutlineInputBorder(borderSide: BorderSide(width: 2)),
+          focusedBorder: const OutlineInputBorder(
+              borderSide: BorderSide(width: 2),
+              borderRadius: BorderRadius.all(Radius.circular(8))),
+          border: const OutlineInputBorder(
+              borderSide: BorderSide(width: 2),
+              borderRadius: BorderRadius.all(Radius.circular(8))),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           label: Text(widget.labelText),
           labelStyle: const TextStyle(color: Colors.black),

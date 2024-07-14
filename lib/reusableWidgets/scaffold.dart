@@ -16,7 +16,11 @@ class CustomScaffold extends StatelessWidget {
             'assets/illustrations/background.svg',
             fit: BoxFit.cover,
           ),
-          children
+          AppBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+          ),
+          children,
         ],
       ),
     );
