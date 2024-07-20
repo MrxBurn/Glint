@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:glint/authentication/login/login.dart';
 import 'package:glint/authentication/login/register.dart';
+import 'package:glint/profile_image_upload/profile_image_upload.dart';
 import 'package:glint/utils/variables.dart';
+import 'package:glint/verification_page/verification_page.dart';
 import 'package:glint/your_interests/your_interests_page.dart';
 import 'package:glint/your_profile/your_profile_info.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -47,7 +49,9 @@ class _MyAppState extends State<MyApp> {
         'loginPage': (context) => const LoginPage(),
         'registerPage': (context) => const RegisterPage(),
         'yourProfileInfo': (context) => const YourProfileInfo(),
-        'yourInterests': (context) => const YourInterestsPage()
+        'yourInterests': (context) => const YourInterestsPage(),
+        'profileImageUpload': (context) => const ProfileImageUpload(),
+        'verificationPage': (context) => const VerificationPage()
       },
     );
   }

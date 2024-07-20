@@ -3,10 +3,18 @@ import 'package:glint/utils/variables.dart';
 
 class CustomRangeSlider extends StatefulWidget {
   const CustomRangeSlider(
-      {super.key, required this.rangeValues, this.onChanged});
+      {super.key,
+      required this.rangeValues,
+      this.onChanged,
+      required this.start,
+      required this.end,
+      required this.divisions});
 
   final RangeValues rangeValues;
   final Function(RangeValues)? onChanged;
+  final double start;
+  final double end;
+  final int divisions;
 
   @override
   State<CustomRangeSlider> createState() => _CustomRangeSliderState();
@@ -19,8 +27,8 @@ class _CustomRangeSliderState extends State<CustomRangeSlider> {
       activeColor: lightPink,
       values: widget.rangeValues,
       onChanged: widget.onChanged,
-      min: 18,
-      max: 60,
+      min: widget.start,
+      max: widget.end,
       divisions: 60,
       labels: RangeLabels(
         widget.rangeValues.start.round().toString(),
