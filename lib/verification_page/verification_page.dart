@@ -53,7 +53,7 @@ class _VerificationPageState extends State<VerificationPage> {
                     Center(
                       child: ArrowButton(
                         onPressed: () =>
-                            Navigator.pushNamed(context, 'verificationPage'),
+                            Navigator.pushNamed(context, 'homePage'),
                       ),
                     ),
                   ],

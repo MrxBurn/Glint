@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:glint/utils/variables.dart';
 
 class CustomButton extends StatefulWidget {
-  const CustomButton({super.key, this.onPressed});
+  const CustomButton({super.key, this.onPressed, required this.text});
 
   final void Function()? onPressed;
+  final String text;
   @override
   State<CustomButton> createState() => _CustomButtonState();
 }
@@ -22,9 +23,9 @@ class _CustomButtonState extends State<CustomButton> {
         ),
       ),
       onPressed: widget.onPressed,
-      child: const Text(
-        'Login',
-        style: TextStyle(color: Colors.white),
+      child: Text(
+        widget.text,
+        style: const TextStyle(color: Colors.white),
       ),
     );
   }

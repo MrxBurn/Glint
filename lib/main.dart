@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:glint/authentication/login/login.dart';
 import 'package:glint/authentication/login/register.dart';
+import 'package:glint/chat/chat_page.dart';
+import 'package:glint/home_page/home_page.dart';
+import 'package:glint/my_account/my_account.dart';
 import 'package:glint/profile_image_upload/profile_image_upload.dart';
 import 'package:glint/utils/variables.dart';
 import 'package:glint/verification_page/verification_page.dart';
@@ -51,7 +54,10 @@ class _MyAppState extends State<MyApp> {
         'yourProfileInfo': (context) => const YourProfileInfo(),
         'yourInterests': (context) => const YourInterestsPage(),
         'profileImageUpload': (context) => const ProfileImageUpload(),
-        'verificationPage': (context) => const VerificationPage()
+        'verificationPage': (context) => const VerificationPage(),
+        'homePage': (context) => const HomePage(),
+        'myAccount': (context) => const MyAccount(),
+        'chatPage': (context) => const ChatPage()
       },
     );
   }

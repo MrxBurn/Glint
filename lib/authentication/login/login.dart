@@ -69,7 +69,10 @@ class _LoginPageState extends State<LoginPage> {
                         controller: _passwordController,
                       ),
                       const Gap(24),
-                      const Center(child: CustomButton())
+                      const Center(
+                          child: CustomButton(
+                        text: 'Login',
+                      ))
                     ],
                   ),
                 )),
