@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:glint/reusableWidgets/bottom_navigation_bar.dart';
 
 class CustomScaffold extends StatefulWidget {
   const CustomScaffold(
-      {super.key,
-      required this.children,
-      this.isNavigationVisible = false,
-      this.shouldNavigateBack = false});
+      {super.key, required this.children, this.shouldNavigateBack = false});
 
   final Widget children;
-  final bool isNavigationVisible;
   final bool shouldNavigateBack;
 
   @override
@@ -18,24 +13,8 @@ class CustomScaffold extends StatefulWidget {
 }
 
 class _CustomScaffoldState extends State<CustomScaffold> {
-  int _currentIndex = 1;
-  void onTapCallBack(int value) {
-    String? currentRoute = ModalRoute.of(context)?.settings.name;
-    setState(() {
-      _currentIndex = value;
-    });
-    if (_currentIndex == 0 && currentRoute != 'chatPage') {
-      Navigator.pushNamed(context, 'chatPage');
-    } else if (_currentIndex == 1 && currentRoute != 'homePage') {
-      Navigator.pushNamed(context, 'homePage');
-    } else if (_currentIndex == 2 && currentRoute != 'myAccount') {
-      Navigator.pushNamed(context, 'myAccount');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    print(_currentIndex);
     return Scaffold(
       extendBody: true,
       body: Stack(
@@ -50,15 +29,11 @@ class _CustomScaffoldState extends State<CustomScaffold> {
             elevation: 0,
             backgroundColor: Colors.transparent,
           ),
-          widget.children,
+          SingleChildScrollView(
+            child: widget.children,
+          )
         ],
       ),
-      bottomNavigationBar: widget.isNavigationVisible
-          ? CustomBottomNavigationBar(
-              currentIndex: _currentIndex,
-              onTap: (value) => onTapCallBack(value),
-            )
-          : null,
     );
   }
 }

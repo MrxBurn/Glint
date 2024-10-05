@@ -56,6 +56,7 @@ class _MyAppState extends State<MyApp> {
         'profileImageUpload': (context) => const ProfileImageUpload(),
         'verificationPage': (context) => const VerificationPage(),
         'homePage': (context) => const HomePage(),
+        'homeWidget': (context) => const HomeWidget(),
         'myAccount': (context) => const MyAccount(),
         'chatPage': (context) => const ChatPage()
       },

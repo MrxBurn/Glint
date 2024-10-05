@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar(
-      {super.key, required this.onTap, required this.currentIndex});
+      {super.key, required this.onTap, this.currentIndex = 1});
 
   final void Function(int value) onTap;
   final int currentIndex;
@@ -36,7 +36,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               elevation: 0,
               backgroundColor: Colors.white,
               currentIndex: widget.currentIndex,
-              onTap: (value) => widget.onTap,
+              onTap: widget.onTap,
               items: [
                 BottomNavigationBarItem(
                   icon: Image.asset(
