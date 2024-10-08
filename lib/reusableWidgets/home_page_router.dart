@@ -63,7 +63,6 @@ class _HomePageRouterState extends State<HomePageRouter> {
                 setState(() {
                   _customWidget = onTapCallBack(value);
                 }),
-                print(value)
               },
             )
           : null,

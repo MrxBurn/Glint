@@ -16,4 +16,6 @@ Color lightPink = const Color(0xffff7978);
 
 Color darkGreen = const Color(0xff1F363D);
 
+Color lightBlue = const Color(0xffBBC2E2);
+
 TextStyle fontSize12 = const TextStyle(fontSize: 14);
