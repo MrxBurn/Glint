@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:glint/main.dart';
 import 'package:glint/reusableWidgets/arrow_button.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
 import 'package:glint/reusableWidgets/header.dart';
 import 'package:glint/reusableWidgets/scaffold.dart';
 import 'package:glint/reusableWidgets/text_field.dart';
 import 'package:glint/utils/variables.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -21,6 +23,15 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+
+  void onRegister() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setString('email', _emailController.text);
+    prefs.setString('firstName', _firstNameController.text);
+    prefs.setString('lastName', _lastNameController.text);
+    prefs.setString('password', _passwordController.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,9 +100,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   const Gap(24),
                   Center(
                       child: ArrowButton(
-                    onPressed: () =>
-                        Navigator.pushNamed(context, 'yourProfileInfo'),
-                  ))
+                          onPressed: () => {
+                                onRegister(),
+                                Navigator.pushNamed(context, 'yourProfileInfo')
+                              }))
                 ],
               ),
             )),

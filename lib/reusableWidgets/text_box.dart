@@ -8,13 +8,15 @@ class CustomTextBox extends StatefulWidget {
       required this.controller,
       this.onTap,
       this.readOnly = false,
-      this.keyboardType});
+      this.keyboardType,
+      this.validator});
 
   final double? width;
   final TextEditingController controller;
   final VoidCallback? onTap;
   final bool readOnly;
   final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
 
   @override
   State<CustomTextBox> createState() => _CustomTextBoxState();
@@ -26,6 +28,7 @@ class _CustomTextBoxState extends State<CustomTextBox> {
     return SizedBox(
       width: widget.width,
       child: TextFormField(
+        validator: widget.validator,
         keyboardType: widget.keyboardType,
         readOnly: widget.readOnly,
         decoration: const InputDecoration(

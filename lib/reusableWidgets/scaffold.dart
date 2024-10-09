@@ -24,13 +24,21 @@ class _CustomScaffoldState extends State<CustomScaffold> {
             'assets/illustrations/background.svg',
             fit: BoxFit.cover,
           ),
-          AppBar(
-            automaticallyImplyLeading: widget.shouldNavigateBack,
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-          ),
-          SingleChildScrollView(
-            child: widget.children,
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AppBar(
+                automaticallyImplyLeading: widget.shouldNavigateBack,
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: widget.children,
+                ),
+              )
+              // widget.children,
+            ],
           )
         ],
       ),
