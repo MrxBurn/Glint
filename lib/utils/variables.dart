@@ -18,4 +18,6 @@ Color darkGreen = const Color(0xff1F363D);
 
 Color lightBlue = const Color(0xffBBC2E2);
 
+Color redError = const Color(0xffb3261d);
+
 TextStyle fontSize12 = const TextStyle(fontSize: 14);

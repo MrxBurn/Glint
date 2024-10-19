@@ -5,19 +5,18 @@ import 'package:glint/chat/chat_page.dart';
 import 'package:glint/home_page/home_page.dart';
 import 'package:glint/my_account/my_account.dart';
 import 'package:glint/profile_image_upload/profile_image_upload.dart';
+import 'package:glint/reusableWidgets/snack_bar.dart';
 import 'package:glint/utils/variables.dart';
 import 'package:glint/verification_page/verification_page.dart';
-import 'package:glint/your_interests/your_interests_page.dart';
 import 'package:glint/your_profile/your_profile_info.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   try {
     await Supabase.initialize(
-      url: 'https://xpkwqnlgvbdkoizpkqbf.supabase.co',
-      anonKey:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInhwa3dxbmxndmJka29penBrcWJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc0MzE5NTUsImV4cCI6MjAzMzAwNzk1NX0.uHMSgmqBUCkRh-drLZapBwqnlOyNsRXqTiLFnysc7nI',
-    );
+        url: 'https://xpkwqnlgvbdkoizpkqbf.supabase.co',
+        anonKey:
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhwa3dxbmxndmJka29penBrcWJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc0MzE5NTUsImV4cCI6MjAzMzAwNzk1NX0.uHMSgmqBUCkRh-drLZapBwqnlOyNsRXqTiLFnysc7nI');
   } catch (e) {
     print(e);
   }
@@ -37,6 +36,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: SnackbarGlobal.key,
       theme: ThemeData(
         inputDecorationTheme: const InputDecorationTheme(
           labelStyle: TextStyle(color: Colors.grey),
@@ -52,7 +52,6 @@ class _MyAppState extends State<MyApp> {
         'loginPage': (context) => const LoginPage(),
         'registerPage': (context) => const RegisterPage(),
         'yourProfileInfo': (context) => const YourProfileInfo(),
-        'yourInterests': (context) => const YourInterestsPage(),
         'profileImageUpload': (context) => const ProfileImageUpload(),
         'verificationPage': (context) => const VerificationPage(),
         'homePage': (context) => const HomePage(),
