@@ -53,7 +53,7 @@ class _HomePageRouterState extends State<HomePageRouter> {
             elevation: 0,
             backgroundColor: Colors.transparent,
           ),
-          SingleChildScrollView(child: _customWidget)
+          SizedBox(child: _customWidget)
         ],
       ),
       bottomNavigationBar: widget.isNavigationVisible

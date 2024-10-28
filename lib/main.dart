@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:glint/authentication/login/login.dart';
 import 'package:glint/authentication/login/register.dart';
@@ -32,6 +34,11 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
+Future<UserResponse> isUserLoggedIn() async {
+  UserResponse user = await supabase.auth.getUser();
+  return user;
+}
+
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
@@ -47,7 +54,19 @@ class _MyAppState extends State<MyApp> {
         ),
         textSelectionTheme: TextSelectionThemeData(cursorColor: darkGreen),
       ),
-      home: const LoginPage(),
+      home: FutureBuilder(
+          future: isUserLoggedIn(),
+          builder: (context, AsyncSnapshot<UserResponse> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.hasData && snapshot.data?.user != null) {
+              return const HomePage();
+            }
+            return const LoginPage();
+          }),
       routes: {
         'loginPage': (context) => const LoginPage(),
         'registerPage': (context) => const RegisterPage(),

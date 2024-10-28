@@ -29,56 +29,64 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Header(),
-        Padding(
-          padding: paddingLRT,
-          child: FormContainer(
-              child: Column(
-            children: [
-              const Gap(10),
-              Center(
-                child: CircleAvatar(
-                  radius: 45,
-                  backgroundColor: darkGreen,
-                  child: const Text(
-                    'Photo',
-                    style: TextStyle(color: Colors.white, fontSize: 12),
-                  ),
+    return SafeArea(
+      child: Column(
+        children: [
+          const Header(),
+          Expanded(
+            child: Padding(
+              padding: paddingLRT,
+              child: FormContainer(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    const Gap(10),
+                    Center(
+                      child: CircleAvatar(
+                        radius: 45,
+                        backgroundColor: darkGreen,
+                        child: const Text(
+                          'Photo',
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                    const Gap(10),
+                    const Text(
+                      'Name of user',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                    Expanded(
+                      child: ListView.separated(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          separatorBuilder: (context, idx) => const Gap(10),
+                          itemCount: messages.length,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (context, idx) {
+                            return Align(
+                              alignment: messages[idx].sender == 'Florin'
+                                  ? Alignment.topLeft
+                                  : Alignment.topRight,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 16.0,
+                                  right: 16,
+                                ),
+                                child: MessageBubble(
+                                  message: messages[idx].message,
+                                ),
+                              ),
+                            );
+                          }),
+                    ),
+                    const ChatTextInput()
+                  ],
                 ),
               ),
-              const Gap(10),
-              const Text(
-                'Name of user',
-                style: TextStyle(fontSize: 24),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 300,
-                  child: ListView.separated(
-                      separatorBuilder: (context, idx) => const Gap(10),
-                      itemCount: messages.length,
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context, idx) {
-                        return Align(
-                          alignment: messages[idx].sender == 'Florin'
-                              ? Alignment.topLeft
-                              : Alignment.topRight,
-                          child: MessageBubble(
-                            message: messages[idx].message,
-                          ),
-                        );
-                      }),
-                ),
-              ),
-              const ChatTextInput()
-            ],
-          )),
-        )
-      ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glint/utils/functions.dart';
 import 'package:glint/utils/variables.dart';
 
 class SingleSelectBox extends StatelessWidget {
@@ -42,7 +43,7 @@ class SingleSelectBox extends StatelessWidget {
                   height: 16,
                 ),
           title: Text(
-            gender,
+            capitalise(gender),
             style: TextStyle(
                 fontSize: 12, color: isSelected ? Colors.white : Colors.black),
           ),

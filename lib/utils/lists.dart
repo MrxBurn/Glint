@@ -6,7 +6,7 @@ List<Color> colourList = [
   const Color(0xffBBC2E2)
 ];
 
-List<String> genders = ['Male', 'Female', 'Other'];
+List<String> genders = ['MALE', 'FEMALE', 'OTHER'];
 
 List<String> images = [
   'assets/icons/male-gender.png',
@@ -68,7 +68,7 @@ List<String> hobbiesList = [
 ];
 
 List<String> lookingForList = [
-  'Relationship',
-  'Something casual',
-  "Don't know yet"
+  'RELATIONSHIP',
+  'SOMETHING CASUAL',
+  "DON'T KNOW YET"
 ];
