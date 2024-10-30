@@ -69,7 +69,7 @@ class _YourProfileInfoState extends State<YourProfileInfo> {
               _lookingForValue = '';
             } else {
               _lookingForIndex = index;
-              _lookingForValue = lookingForList[index];
+              _lookingForValue = lookingForListEnums[index];
             }
           }
           _formSubmitted = false;
@@ -325,11 +325,11 @@ class _YourProfileInfoState extends State<YourProfileInfo> {
                           child: ListView.separated(
                             separatorBuilder: (context, index) => const Gap(6),
                             scrollDirection: Axis.horizontal,
-                            itemCount: lookingForList.length,
+                            itemCount: lookingForText.length,
                             shrinkWrap: true,
                             itemBuilder: (context, idx) {
                               return MultiSelectBox(
-                                hobby: lookingForList[idx],
+                                hobby: lookingForText[idx],
                                 onTap: () => onTileSelected(idx, ''),
                                 isSelected: _lookingForIndex == idx,
                               );

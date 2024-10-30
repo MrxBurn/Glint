@@ -67,8 +67,13 @@ List<String> hobbiesList = [
   "Stand-up Comedy"
 ];
 
-List<String> lookingForList = [
+List<String> lookingForListEnums = [
   'RELATIONSHIP',
   'SOMETHING CASUAL',
-  "DON'T KNOW YET"
+  "DON'T_KNOW_YET"
+];
+List<String> lookingForText = [
+  'Relationship',
+  'Something casual',
+  "Don't know yet"
 ];
