@@ -37,7 +37,6 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                   child: widget.children,
                 ),
               )
-              // widget.children,
             ],
           )
         ],

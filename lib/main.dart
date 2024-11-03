@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:glint/authentication/login/login.dart';
 import 'package:glint/authentication/login/register.dart';

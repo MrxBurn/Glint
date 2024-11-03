@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:glint/editPreferences/edit_preferences.dart';
 import 'package:glint/main.dart';
 import 'package:glint/reusableWidgets/error_field.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
@@ -11,6 +12,7 @@ import 'package:glint/utils/lists.dart';
 import 'package:glint/utils/variables.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:glint/classes/user.dart';
 
 class MyAccount extends StatefulWidget {
   const MyAccount({super.key});
@@ -32,20 +34,19 @@ class _MyAccountState extends State<MyAccount> {
 
   final String _genderValue = '';
 
-  final bool _formSubmitted = false;
-
   List<String> _selectedHobbies = [];
 
   double width = 200;
   double gap = 10;
 
-  Future<List<Map<String, dynamic>>> getUser() async {
+  Future<List<UserClass>> getUser() async {
     UserResponse user = await supabase.auth.getUser();
 
     if (user.user?.id != null) {
       List<Map<String, dynamic>> response =
           await supabase.from('users').select().eq('id', user.user!.id);
-      return response;
+
+      return response.map((data) => UserClass.fromMap(data)).toList();
     }
     return [];
   }
@@ -63,25 +64,25 @@ class _MyAccountState extends State<MyAccount> {
                   width: double.infinity,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: FutureBuilder(
+                    child: FutureBuilder<List<UserClass>>(
                       future: getUser(),
-                      builder: (context, AsyncSnapshot snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          var data = snapshot.data[0];
+                      builder:
+                          (context, AsyncSnapshot<List<UserClass>> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done &&
+                            snapshot.hasData) {
+                          UserClass data = snapshot.data![0];
 
-                          _genderSelectedIndex =
-                              genders.indexOf(data['gender']);
-                          _selectedHobbies +=
-                              List<String>.from(data['hobbies']);
+                          _genderSelectedIndex = genders.indexOf(data.gender);
+                          _selectedHobbies += List<String>.from(data.hobbies);
                           _interestSelectedIndex =
-                              genders.indexOf(data['interest_in']);
+                              genders.indexOf(data.interestIn);
                           _lookingForIndex =
-                              lookingForListEnums.indexOf(data['looking_for']);
+                              lookingForListEnums.indexOf(data.lookingFor);
 
                           dobController.text = DateFormat('dd-MM-yyyy')
-                              .format(DateTime.parse(data['dob']))
+                              .format(DateTime.parse(data.dob))
                               .toString();
-                          heightController.text = data['height'].toString();
+                          heightController.text = data.height.toString();
 
                           return SingleChildScrollView(
                             child: Column(
@@ -92,7 +93,13 @@ class _MyAccountState extends State<MyAccount> {
                                   alignment: Alignment.topRight,
                                   child: ElevatedButton(
                                       onPressed: () {
-                                        //TODO: Edit logic
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                EditPreferences(user: data),
+                                          ),
+                                        );
                                       },
                                       child: const Text('Edit preferences')),
                                 ),
@@ -144,11 +151,6 @@ class _MyAccountState extends State<MyAccount> {
                                                 _genderSelectedIndex == idx,
                                           );
                                         })),
-                                Gap(gap),
-                                _formSubmitted && _genderValue.isEmpty
-                                    ? const ErrorField(
-                                        error: 'Please select a gender')
-                                    : const SizedBox(),
                                 Gap(gap),
                                 const Text('Hobbies:'),
                                 Gap(gap),
@@ -220,7 +222,7 @@ class _MyAccountState extends State<MyAccount> {
                                   children: [
                                     const Text('Age search: '),
                                     Text(
-                                      "${data['min_age']} - ${data['max_age']}",
+                                      "${data.minAge} - ${data.maxAge}",
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold),
                                     )
