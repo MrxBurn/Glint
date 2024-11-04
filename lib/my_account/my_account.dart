@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:glint/editPreferences/edit_preferences.dart';
 import 'package:glint/main.dart';
-import 'package:glint/reusableWidgets/error_field.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
 import 'package:glint/reusableWidgets/header.dart';
 import 'package:glint/reusableWidgets/multi_select_box.dart';
@@ -31,8 +30,6 @@ class _MyAccountState extends State<MyAccount> {
   int? _genderSelectedIndex;
   int? _interestSelectedIndex;
   int? _lookingForIndex;
-
-  final String _genderValue = '';
 
   List<String> _selectedHobbies = [];
 
