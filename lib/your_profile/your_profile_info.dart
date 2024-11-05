@@ -375,20 +375,24 @@ class _YourProfileInfoState extends State<YourProfileInfo> {
                         //     ),
 
                         const Gap(32),
-                        Center(child: ArrowButton(onPressed: () {
-                          setState(() {
-                            _formSubmitted = true;
-                          });
-                          if (_formKey.currentState!.validate() &&
-                              _genderValue.isNotEmpty &&
-                              _interestValue.isNotEmpty &&
-                              _selectedHobbies.isNotEmpty &&
-                              _lookingForValue.isNotEmpty) {
-                            createAccount();
-                            //TODO: Implement Face Verification
-                            // Navigator.pushNamed(context, 'profileImageUpload');
-                          }
-                        }))
+                        Center(
+                          child: ArrowButton(
+                            onPressed: () {
+                              setState(() {
+                                _formSubmitted = true;
+                              });
+                              if (_formKey.currentState!.validate() &&
+                                  _genderValue.isNotEmpty &&
+                                  _interestValue.isNotEmpty &&
+                                  _selectedHobbies.isNotEmpty &&
+                                  _lookingForValue.isNotEmpty) {
+                                createAccount();
+                                //TODO: Implement Face Verification
+                                // Navigator.pushNamed(context, 'profileImageUpload');
+                              }
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   ),
