@@ -70,7 +70,7 @@ List<String> hobbiesList = [
 List<String> lookingForListEnums = [
   'RELATIONSHIP',
   'SOMETHING CASUAL',
-  "DON'T_KNOW_YET"
+  "DONT_KNOW_YET"
 ];
 List<String> lookingForText = [
   'Relationship',

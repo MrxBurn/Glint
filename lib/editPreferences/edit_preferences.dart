@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:glint/classes/user.dart';
 import 'package:glint/functions/edit_profile.dart';
+import 'package:glint/main.dart';
+import 'package:glint/reusableWidgets/custom_elevated_button.dart';
 import 'package:glint/reusableWidgets/error_field.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
 import 'package:glint/reusableWidgets/header.dart';
@@ -9,6 +11,7 @@ import 'package:glint/reusableWidgets/multi_select_box.dart';
 import 'package:glint/reusableWidgets/range_slider.dart';
 import 'package:glint/reusableWidgets/scaffold.dart';
 import 'package:glint/reusableWidgets/single_select_box.dart';
+import 'package:glint/reusableWidgets/snack_bar.dart';
 import 'package:glint/utils/lists.dart';
 import 'package:glint/utils/variables.dart';
 
@@ -37,6 +40,8 @@ class _EditPreferencesState extends State<EditPreferences> {
   String _lookingForValue = '';
 
   bool _formSubmitted = false;
+
+  bool _isLoading = false;
 
   List<String> _selectedHobbies = [];
 
@@ -97,8 +102,29 @@ class _EditPreferencesState extends State<EditPreferences> {
     });
   }
 
+  Future<void> updatePreferences() async {
+    setState(() {
+      _isLoading = true;
+    });
+    Map<String, dynamic> updatedData = {
+      "gender": genders[_genderSelectedIndex ?? 0],
+      "hobbies": _selectedHobbies,
+      "interest_in": genders[_interestSelectedIndex ?? 0],
+      "looking_for": lookingForListEnums[_lookingForIndex ?? 0],
+    };
+
+    await supabase.from('users').update(updatedData).eq('id', widget.user.id);
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    bool isSaveEnabled = hasDataChanged(widget.user, _genderValue,
+        _interestValue, _lookingForValue, _selectedHobbies);
+
     return CustomScaffold(
       shouldNavigateBack: true,
       children: Column(
@@ -116,8 +142,12 @@ class _EditPreferencesState extends State<EditPreferences> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'My Account',
+                        'Edit preferences',
                         style: headerStyle,
+                      ),
+                      const Text(
+                        "Please make changes to the data on this page before saving",
+                        style: TextStyle(fontSize: 12),
                       ),
                       const Gap(24),
                       const Text('Gender:'),
@@ -274,38 +304,26 @@ class _EditPreferencesState extends State<EditPreferences> {
                       ),
                       const Gap(24),
                       Center(
-                        child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _formSubmitted = true;
-
-                                print(hasDataChanged(
-                                    widget.user,
-                                    _genderValue,
-                                    _interestValue,
-                                    _lookingForValue,
-                                    _selectedHobbies));
-                              });
-
-                              if (_genderSelectedIndex != null &&
-                                  _interestSelectedIndex != null &&
-                                  _selectedHobbies.isNotEmpty &&
-                                  _lookingForIndex != null) {
-                                if (hasDataChanged(
-                                        widget.user,
-                                        _genderValue,
-                                        _interestValue,
-                                        _lookingForValue,
-                                        _selectedHobbies) ==
-                                    true) {
-//TODO: Append changes
-                                } else {
-                                  //DO NOUT
-                                }
-                              }
-                            },
-                            child: const Text('Save')),
-                      ),
+                          child: CustomElevatedButton(
+                              onPressed: isSaveEnabled
+                                  ? () {
+                                      setState(() {
+                                        _formSubmitted = true;
+                                      });
+                                      if (_genderValue.isNotEmpty &&
+                                          _interestValue.isNotEmpty &&
+                                          _selectedHobbies.isNotEmpty &&
+                                          _lookingForValue.isNotEmpty) {
+                                        updatePreferences();
+                                        SnackbarGlobal.show(
+                                            'Preferences updated',
+                                            Colors.green);
+                                        Navigator.pop(context);
+                                      }
+                                    }
+                                  : null,
+                              isLoading: _isLoading,
+                              child: const Text('Save'))),
                       Gap(gap),
                     ],
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glint/reusableWidgets/custom_elevated_button.dart';
 import 'package:glint/utils/variables.dart';
 
 class CustomButton extends StatefulWidget {
@@ -13,7 +14,7 @@ class CustomButton extends StatefulWidget {
 class _CustomButtonState extends State<CustomButton> {
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return CustomElevatedButton(
       style: ButtonStyle(
         backgroundColor: WidgetStatePropertyAll(darkGreen),
         shape: WidgetStatePropertyAll(

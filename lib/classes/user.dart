@@ -1,4 +1,5 @@
 class UserClass {
+  final String id;
   final String gender;
   final List<String> hobbies;
   final String interestIn;
@@ -9,6 +10,7 @@ class UserClass {
   final int maxAge;
 
   UserClass({
+    required this.id,
     required this.minAge,
     required this.maxAge,
     required this.gender,
@@ -21,6 +23,7 @@ class UserClass {
 
   factory UserClass.fromMap(Map<String, dynamic> data) {
     return UserClass(
+      id: data['id'],
       gender: data['gender'] as String,
       hobbies: List<String>.from(data['hobbies']),
       interestIn: data['interest_in'] as String,
@@ -33,6 +36,7 @@ class UserClass {
   }
   factory UserClass.defaultUser(Map<String, dynamic> data) {
     return UserClass(
+      id: '0',
       gender: 'Male',
       hobbies: [],
       interestIn: '',

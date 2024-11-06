@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:glint/editPreferences/edit_preferences.dart';
 import 'package:glint/main.dart';
+import 'package:glint/reusableWidgets/custom_elevated_button.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
 import 'package:glint/reusableWidgets/header.dart';
 import 'package:glint/reusableWidgets/multi_select_box.dart';
@@ -87,8 +88,8 @@ class _MyAccountState extends State<MyAccount> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Align(
-                                  alignment: Alignment.topRight,
-                                  child: ElevatedButton(
+                                    alignment: Alignment.topRight,
+                                    child: CustomElevatedButton(
                                       onPressed: () {
                                         Navigator.push(
                                           context,
@@ -98,8 +99,9 @@ class _MyAccountState extends State<MyAccount> {
                                           ),
                                         );
                                       },
-                                      child: const Text('Edit preferences')),
-                                ),
+                                      isLoading: false,
+                                      child: const Text('Edit preferences'),
+                                    )),
                                 Text(
                                   'My Account',
                                   style: headerStyle,
@@ -227,10 +229,11 @@ class _MyAccountState extends State<MyAccount> {
                                 ),
                                 Gap(gap),
                                 Center(
-                                  child: ElevatedButton(
-                                      onPressed: () => supabase.auth.signOut(),
-                                      child: const Text('Logout')),
-                                ),
+                                    child: CustomElevatedButton(
+                                  onPressed: () => supabase.auth.signOut(),
+                                  isLoading: false,
+                                  child: const Text('Logout'),
+                                )),
                               ],
                             ),
                           );
