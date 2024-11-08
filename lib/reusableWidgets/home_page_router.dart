@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:glint/chat/chat_page.dart';
-import 'package:glint/home_page/home_page.dart';
 import 'package:glint/my_account/my_account.dart';
 import 'package:glint/reusableWidgets/bottom_navigation_bar.dart';
+import 'package:glint/search_user/search_user_page.dart';
 
 class HomePageRouter extends StatefulWidget {
   const HomePageRouter(
@@ -20,17 +19,15 @@ class HomePageRouter extends StatefulWidget {
 
 class _HomePageRouterState extends State<HomePageRouter> {
   int _currentIndex = 1;
-  Widget _customWidget = const HomeWidget();
+  Widget _customWidget = const MyAccount();
   Widget onTapCallBack(int value) {
     String? currentRoute = ModalRoute.of(context)?.settings.name;
     setState(() {
       _currentIndex = value;
     });
-    if (_currentIndex == 0 && currentRoute != 'chatPage') {
-      return const ChatPage();
+    if (_currentIndex == 0 && currentRoute != 'searchPage') {
+      return SearchUserPage();
     } else if (_currentIndex == 1 && currentRoute != 'homeWidget') {
-      return const HomeWidget();
-    } else if (_currentIndex == 2 && currentRoute != 'myAccount') {
       return const MyAccount();
     }
 
