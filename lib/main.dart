@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:glint/authentication/login/login.dart';
 import 'package:glint/authentication/login/register.dart';
 import 'package:glint/chat/chat_page.dart';
@@ -20,7 +21,7 @@ Future<void> main() async {
   } catch (e) {
     print(e);
   }
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 final supabase = Supabase.instance.client;
@@ -72,9 +73,9 @@ class _MyAppState extends State<MyApp> {
         'profileImageUpload': (context) => const ProfileImageUpload(),
         'verificationPage': (context) => const VerificationPage(),
         'homePage': (context) => const HomePage(),
-        'homeWidget': (context) => const HomeWidget(),
         'myAccount': (context) => const MyAccount(),
-        'chatPage': (context) => const ChatPage()
+        'chatPage': (context) => const ChatPage(),
+        'searchPage': (context) => const SearchUserPage(),
       },
     );
   }

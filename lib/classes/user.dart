@@ -1,3 +1,7 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:glint/main.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 class UserClass {
   final String id;
   final String gender;
@@ -48,3 +52,25 @@ class UserClass {
     );
   }
 }
+
+class UserClassNotifier extends StateNotifier<UserClass> {
+  UserClassNotifier() : super(UserClass.defaultUser()) {
+    fetchUser();
+  }
+
+  Future<void> fetchUser() async {
+    UserResponse user = await supabase.auth.getUser();
+
+    if (user.user?.id != null) {
+      List<Map<String, dynamic>> response =
+          await supabase.from('users').select().eq('id', user.user!.id);
+
+      state = response.map((data) => UserClass.fromMap(data)).toList()[0];
+    }
+  }
+}
+
+var userClassProvider =
+    StateNotifierProvider<UserClassNotifier, UserClass>((ref) {
+  return UserClassNotifier();
+});
