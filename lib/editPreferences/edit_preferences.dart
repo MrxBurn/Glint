@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:glint/classes/user.dart';
 import 'package:glint/functions/edit_profile.dart';
@@ -15,18 +16,20 @@ import 'package:glint/reusableWidgets/snack_bar.dart';
 import 'package:glint/utils/lists.dart';
 import 'package:glint/utils/variables.dart';
 
-class EditPreferences extends StatefulWidget {
-  const EditPreferences({super.key, required this.user});
-
-  final UserClass user;
+class EditPreferences extends ConsumerStatefulWidget {
+  const EditPreferences({
+    super.key,
+  });
 
   @override
-  State<EditPreferences> createState() => _EditPreferencesState();
+  ConsumerState<EditPreferences> createState() => _EditPreferencesState();
 }
 
-class _EditPreferencesState extends State<EditPreferences> {
+class _EditPreferencesState extends ConsumerState<EditPreferences> {
   TextEditingController ageController = TextEditingController();
   RangeValues _ageRangeValues = const RangeValues(0, 0);
+
+  late UserClass user = UserClass.defaultUser();
 
   double width = 200;
   double gap = 10;
@@ -48,17 +51,23 @@ class _EditPreferencesState extends State<EditPreferences> {
   @override
   void initState() {
     super.initState();
-    _genderSelectedIndex = genders.indexOf(widget.user.gender);
-    _selectedHobbies += List<String>.from(widget.user.hobbies);
-    _interestSelectedIndex = genders.indexOf(widget.user.interestIn);
-    _lookingForIndex = lookingForListEnums.indexOf(widget.user.lookingFor);
+    final user = ref.read(userClassProvider);
 
-    _ageRangeValues = RangeValues(
-        widget.user.minAge.toDouble(), widget.user.maxAge.toDouble());
+    if (user.id != '0') {
+      _genderSelectedIndex = genders.indexOf(user.gender);
+      _selectedHobbies += List<String>.from(user.hobbies);
+      _interestSelectedIndex = genders.indexOf(user.interestIn);
+      _lookingForIndex = lookingForListEnums.indexOf(user.lookingFor);
 
-    _genderValue = widget.user.gender;
-    _interestValue = widget.user.interestIn;
-    _lookingForValue = widget.user.lookingFor;
+      _ageRangeValues =
+          RangeValues(user.minAge.toDouble(), user.maxAge.toDouble());
+
+      _genderValue = user.gender;
+      _interestValue = user.interestIn;
+      _lookingForValue = user.lookingFor;
+
+      print('object');
+    }
   }
 
   void onTileSelected(int index, String? type) {
@@ -111,19 +120,23 @@ class _EditPreferencesState extends State<EditPreferences> {
       "hobbies": _selectedHobbies,
       "interest_in": genders[_interestSelectedIndex ?? 0],
       "looking_for": lookingForListEnums[_lookingForIndex ?? 0],
+      "min_age": _ageRangeValues.start.toInt(),
+      "max_age": _ageRangeValues.end.toInt()
     };
 
-    await supabase.from('users').update(updatedData).eq('id', widget.user.id);
+    await supabase.from('users').update(updatedData).eq('id', user.id);
 
     setState(() {
       _isLoading = false;
     });
   }
 
+  //TODO: Fix on Save error
+
   @override
   Widget build(BuildContext context) {
-    bool isSaveEnabled = hasDataChanged(widget.user, _genderValue,
-        _interestValue, _lookingForValue, _selectedHobbies);
+    bool isSaveEnabled = hasDataChanged(user, _genderValue, _interestValue,
+        _lookingForValue, _selectedHobbies, _ageRangeValues);
 
     return CustomScaffold(
       shouldNavigateBack: true,
