@@ -19,16 +19,16 @@ class HomePageRouter extends StatefulWidget {
 
 class _HomePageRouterState extends State<HomePageRouter> {
   int _currentIndex = 1;
-  Widget _customWidget = const MyAccount();
+  Widget _customWidget = MyAccount();
   Widget onTapCallBack(int value) {
     String? currentRoute = ModalRoute.of(context)?.settings.name;
     setState(() {
       _currentIndex = value;
     });
     if (_currentIndex == 0 && currentRoute != 'searchPage') {
-      return SearchUserPage();
+      return const SearchUserPage();
     } else if (_currentIndex == 1 && currentRoute != 'homeWidget') {
-      return const MyAccount();
+      return MyAccount();
     }
 
     return const Text('');
