@@ -7,6 +7,7 @@ import 'package:glint/home_page/home_page.dart';
 import 'package:glint/my_account/my_account.dart';
 import 'package:glint/profile_image_upload/profile_image_upload.dart';
 import 'package:glint/reusableWidgets/snack_bar.dart';
+import 'package:glint/search_user/search_user_page.dart';
 import 'package:glint/utils/variables.dart';
 import 'package:glint/verification_page/verification_page.dart';
 import 'package:glint/your_profile/your_profile_info.dart';

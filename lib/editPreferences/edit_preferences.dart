@@ -46,28 +46,11 @@ class _EditPreferencesState extends ConsumerState<EditPreferences> {
 
   bool _isLoading = false;
 
-  List<String> _selectedHobbies = [];
+  final List<String> _selectedHobbies = [];
 
   @override
   void initState() {
     super.initState();
-    final user = ref.read(userClassProvider);
-
-    if (user.id != '0') {
-      _genderSelectedIndex = genders.indexOf(user.gender);
-      _selectedHobbies += List<String>.from(user.hobbies);
-      _interestSelectedIndex = genders.indexOf(user.interestIn);
-      _lookingForIndex = lookingForListEnums.indexOf(user.lookingFor);
-
-      _ageRangeValues =
-          RangeValues(user.minAge.toDouble(), user.maxAge.toDouble());
-
-      _genderValue = user.gender;
-      _interestValue = user.interestIn;
-      _lookingForValue = user.lookingFor;
-
-      print('object');
-    }
   }
 
   void onTileSelected(int index, String? type) {

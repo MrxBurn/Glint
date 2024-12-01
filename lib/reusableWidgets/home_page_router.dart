@@ -27,7 +27,7 @@ class _HomePageRouterState extends State<HomePageRouter> {
       _currentIndex = value;
     });
     if (_currentIndex == 0 && currentRoute != 'chatPage') {
-      return const const const ChatPage();
+      return const ChatPage();
     } else if (_currentIndex == 1 && currentRoute != 'homeWidget') {
       return const HomeWidget();
     } else if (_currentIndex == 2 && currentRoute != 'myAccount') {

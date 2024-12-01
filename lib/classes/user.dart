@@ -38,7 +38,7 @@ class UserClass {
       maxAge: data['max_age'],
     );
   }
-  factory UserClass.defaultUser(Map<String, dynamic> data) {
+  factory UserClass.defaultUser() {
     return UserClass(
       id: '0',
       gender: 'Male',
@@ -51,22 +51,54 @@ class UserClass {
       maxAge: 0,
     );
   }
+
+  UserClass copyWith({
+    String? id,
+    String? gender,
+    List<String>? hobbies,
+    String? interestIn,
+    String? lookingFor,
+    String? dob,
+    int? height,
+    int? minAge,
+    int? maxAge,
+  }) {
+    return UserClass(
+      id: id ?? this.id,
+      gender: gender ?? this.gender,
+      hobbies: hobbies ?? this.hobbies,
+      interestIn: interestIn ?? this.interestIn,
+      lookingFor: lookingFor ?? this.lookingFor,
+      dob: dob ?? this.dob,
+      height: height ?? this.height,
+      minAge: minAge ?? this.minAge,
+      maxAge: maxAge ?? this.maxAge,
+    );
+  }
 }
 
 class UserClassNotifier extends StateNotifier<UserClass> {
-  UserClassNotifier() : super(UserClass.defaultUser()) {
-    fetchUser();
-  }
+  UserClassNotifier() : super(UserClass.defaultUser());
 
   Future<void> fetchUser() async {
     UserResponse user = await supabase.auth.getUser();
+    List<Map<String, dynamic>> response =
+        await supabase.from('users').select().eq('id', user.user?.id ?? '');
 
-    if (user.user?.id != null) {
-      List<Map<String, dynamic>> response =
-          await supabase.from('users').select().eq('id', user.user!.id);
+    state = response.map((data) => UserClass.fromMap(data)).toList()[0];
+  }
 
-      state = response.map((data) => UserClass.fromMap(data)).toList()[0];
-    }
+  void updateUser(UserClass updatedUser) {
+    state = state.copyWith(
+      gender: updatedUser.gender,
+      hobbies: updatedUser.hobbies,
+      interestIn: updatedUser.interestIn,
+      lookingFor: updatedUser.lookingFor,
+      dob: updatedUser.dob,
+      height: updatedUser.height,
+      minAge: updatedUser.minAge,
+      maxAge: updatedUser.maxAge,
+    );
   }
 }
 
