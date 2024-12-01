@@ -111,6 +111,8 @@ class _EditPreferencesState extends State<EditPreferences> {
       "hobbies": _selectedHobbies,
       "interest_in": genders[_interestSelectedIndex ?? 0],
       "looking_for": lookingForListEnums[_lookingForIndex ?? 0],
+      "min_age": _ageRangeValues.start,
+      "max_age": _ageRangeValues.end
     };
 
     await supabase.from('users').update(updatedData).eq('id', widget.user.id);
@@ -122,8 +124,9 @@ class _EditPreferencesState extends State<EditPreferences> {
 
   @override
   Widget build(BuildContext context) {
+    print(_ageRangeValues);
     bool isSaveEnabled = hasDataChanged(widget.user, _genderValue,
-        _interestValue, _lookingForValue, _selectedHobbies);
+        _interestValue, _lookingForValue, _selectedHobbies, _ageRangeValues);
 
     return CustomScaffold(
       shouldNavigateBack: true,
@@ -318,7 +321,8 @@ class _EditPreferencesState extends State<EditPreferences> {
                                         SnackbarGlobal.show(
                                             'Preferences updated',
                                             Colors.green);
-                                        Navigator.pop(context);
+                                        Navigator.pushNamed(
+                                            context, 'homePage');
                                       }
                                     }
                                   : null,
