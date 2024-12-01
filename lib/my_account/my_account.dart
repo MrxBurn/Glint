@@ -48,8 +48,6 @@ class _MyAccountState extends State<MyAccount> {
     }
     return [];
   }
-  
-  Fa ca controlerele sa fie setate cu fetchUser
 
   @override
   Widget build(BuildContext context) {

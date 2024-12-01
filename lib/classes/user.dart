@@ -1,7 +1,3 @@
-import 'package:get/get.dart';
-import 'package:glint/main.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-
 class UserClass {
   final String id;
   final String gender;
@@ -38,7 +34,7 @@ class UserClass {
       maxAge: data['max_age'],
     );
   }
-  factory UserClass.defaultUser() {
+  factory UserClass.defaultUser(Map<String, dynamic> data) {
     return UserClass(
       id: '0',
       gender: 'Male',
@@ -50,34 +46,5 @@ class UserClass {
       minAge: 0,
       maxAge: 0,
     );
-  }
-}
-
-class UserClassController extends GetxController {
-  Rx<UserClass> defaultUser = UserClass.defaultUser().obs;
-
-  @override
-  void onInit() async {
-    super.onInit();
-
-    await fetchUser();
-  }
-
-  void updateUser(UserClass user) {
-    defaultUser.value = user;
-  }
-
-  Future<void> fetchUser() async {
-    UserResponse user = await supabase.auth.getUser();
-
-    if (user.user?.id != null) {
-      List<Map<String, dynamic>> response =
-          await supabase.from('users').select().eq('id', user.user!.id);
-
-      List<UserClass> userResponse =
-          response.map((data) => UserClass.fromMap(data)).toList();
-
-      defaultUser.value = userResponse[0];
-    }
   }
 }

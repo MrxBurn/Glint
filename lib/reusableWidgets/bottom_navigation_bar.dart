@@ -49,6 +49,13 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                   ),
                   label: 'Chat',
                 ),
+                const BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home,
+                    size: 20,
+                  ),
+                  label: 'Home',
+                ),
                 BottomNavigationBarItem(
                     icon: Image.asset(
                       'assets/icons/user.png',

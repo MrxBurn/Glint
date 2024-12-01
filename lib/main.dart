@@ -6,7 +6,6 @@ import 'package:glint/home_page/home_page.dart';
 import 'package:glint/my_account/my_account.dart';
 import 'package:glint/profile_image_upload/profile_image_upload.dart';
 import 'package:glint/reusableWidgets/snack_bar.dart';
-import 'package:glint/search_user/search_user_page.dart';
 import 'package:glint/utils/variables.dart';
 import 'package:glint/verification_page/verification_page.dart';
 import 'package:glint/your_profile/your_profile_info.dart';
@@ -19,7 +18,6 @@ Future<void> main() async {
         anonKey:
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhwa3dxbmxndmJka29penBrcWJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc0MzE5NTUsImV4cCI6MjAzMzAwNzk1NX0.uHMSgmqBUCkRh-drLZapBwqnlOyNsRXqTiLFnysc7nI');
   } catch (e) {
-    // ignore: avoid_print
     print(e);
   }
   runApp(const MyApp());
@@ -74,9 +72,9 @@ class _MyAppState extends State<MyApp> {
         'profileImageUpload': (context) => const ProfileImageUpload(),
         'verificationPage': (context) => const VerificationPage(),
         'homePage': (context) => const HomePage(),
+        'homeWidget': (context) => const HomeWidget(),
         'myAccount': (context) => const MyAccount(),
-        'chatPage': (context) => const ChatPage(),
-        'searchPage': (context) => SearchUserPage(),
+        'chatPage': (context) => const ChatPage()
       },
     );
   }
