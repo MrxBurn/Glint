@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:glint/chat/chat_page.dart';
 import 'package:glint/my_account/my_account.dart';
 import 'package:glint/reusableWidgets/bottom_navigation_bar.dart';
+import 'package:glint/search_user_page/search_user_page.dart';
 
 class HomePageRouter extends StatefulWidget {
   const HomePageRouter(
@@ -26,7 +27,7 @@ class _HomePageRouterState extends State<HomePageRouter> {
       _currentIndex = value;
     });
     if (_currentIndex == 0 && currentRoute != 'chatPage') {
-      return const ChatPage();
+      return const SearchUserPage();
     } else if (_currentIndex == 1 && currentRoute != 'homeWidget') {
       return const MyAccount();
     }
