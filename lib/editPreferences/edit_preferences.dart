@@ -111,8 +111,8 @@ class _EditPreferencesState extends State<EditPreferences> {
       "hobbies": _selectedHobbies,
       "interest_in": genders[_interestSelectedIndex ?? 0],
       "looking_for": lookingForListEnums[_lookingForIndex ?? 0],
-      "min_age": _ageRangeValues.start,
-      "max_age": _ageRangeValues.end
+      "min_age": _ageRangeValues.start.toInt(),
+      "max_age": _ageRangeValues.end.toInt(),
     };
 
     await supabase.from('users').update(updatedData).eq('id', widget.user.id);
@@ -124,7 +124,6 @@ class _EditPreferencesState extends State<EditPreferences> {
 
   @override
   Widget build(BuildContext context) {
-    print(_ageRangeValues);
     bool isSaveEnabled = hasDataChanged(widget.user, _genderValue,
         _interestValue, _lookingForValue, _selectedHobbies, _ageRangeValues);
 

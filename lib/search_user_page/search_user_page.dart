@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:glint/classes/user.dart';
+import 'package:glint/main.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
 import 'package:glint/reusableWidgets/header.dart';
 import 'package:glint/utils/variables.dart';
@@ -8,8 +7,11 @@ import 'package:glint/utils/variables.dart';
 class SearchUserPage extends StatelessWidget {
   const SearchUserPage({super.key});
 
-  // final UserClassController userController =
-  //     Get.put<UserClassController>(UserClassController());
+  // Future<void> getUserBasedOnPreferences() async {
+  //   List<Map<String, dynamic>> response =
+  //         await supabase.from('users')
+
+  // }
 
   @override
   Widget build(BuildContext context) {

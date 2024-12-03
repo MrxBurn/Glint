@@ -106,6 +106,8 @@ class _YourProfileInfoState extends State<YourProfileInfo> {
           'looking_for': _lookingForValue.toUpperCase(),
           'min_age': _ageRangeValues.start.toInt(),
           'max_age': _ageRangeValues.end.toInt(),
+          'is_active': false,
+          'is_chatting': false
         }).then((e) => print('success'));
 
     setState(() {
