@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:glint/classes/message.dart';
+import 'package:glint/models/message.dart';
 import 'package:glint/reusableWidgets/chat_text_input.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
 import 'package:glint/reusableWidgets/header.dart';

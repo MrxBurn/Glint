@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glint/classes/user.dart';
+import 'package:glint/models/user.dart';
 
 bool hasDataChanged(
     UserClass currentSettings,

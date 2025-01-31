@@ -12,7 +12,7 @@ import 'package:glint/utils/lists.dart';
 import 'package:glint/utils/variables.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:glint/classes/user.dart';
+import 'package:glint/models/user.dart';
 
 class MyAccount extends StatefulWidget {
   const MyAccount({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:glint/classes/user.dart';
+import 'package:glint/models/user.dart';
 import 'package:glint/functions/edit_profile.dart';
 import 'package:glint/main.dart';
 import 'package:glint/reusableWidgets/custom_elevated_button.dart';
