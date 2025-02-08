@@ -1,3 +1,9 @@
+import 'package:glint/main.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+part 'user.g.dart';
+
 class UserClass {
   final String id;
   final String gender;
@@ -34,7 +40,7 @@ class UserClass {
       maxAge: data['max_age'],
     );
   }
-  factory UserClass.defaultUser(Map<String, dynamic> data) {
+  factory UserClass.defaultUser() {
     return UserClass(
       id: '0',
       gender: 'Male',
@@ -46,5 +52,35 @@ class UserClass {
       minAge: 0,
       maxAge: 0,
     );
+  }
+}
+
+@riverpod
+class UserNotifier extends _$UserNotifier {
+  @override
+  Future<UserClass?> build() async {
+    return fetchUser();
+  }
+
+  Future<UserClass?> fetchUser() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null) return null;
+
+    final response = await Supabase.instance.client
+        .from('users')
+        .select()
+        .eq('id', user.id)
+        .single();
+
+    return UserClass.fromMap(response);
+  }
+
+  Future<void> updateUser(Map<String, dynamic> updatedData) async {
+    await supabase
+        .from('users')
+        .update(updatedData)
+        .eq('id', state.value?.id ?? '');
+
+    ref.invalidateSelf();
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:glint/chat/chat_page.dart';
 import 'package:glint/my_account/my_account.dart';
 import 'package:glint/reusableWidgets/bottom_navigation_bar.dart';
 import 'package:glint/search_user_page/search_user_page.dart';

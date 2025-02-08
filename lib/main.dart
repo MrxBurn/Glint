@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:glint/authentication/login/login.dart';
 import 'package:glint/authentication/login/register.dart';
 import 'package:glint/chat/chat_page.dart';
@@ -21,7 +22,7 @@ Future<void> main() async {
   } catch (e) {
     print(e);
   }
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 final supabase = Supabase.instance.client;
