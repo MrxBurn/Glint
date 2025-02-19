@@ -5,7 +5,6 @@ import 'package:glint/editPreferences/edit_preferences.dart';
 import 'package:glint/main.dart';
 import 'package:glint/reusableWidgets/custom_elevated_button.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
-import 'package:glint/reusableWidgets/header.dart';
 import 'package:glint/reusableWidgets/multi_select_box.dart';
 import 'package:glint/reusableWidgets/single_select_box.dart';
 import 'package:glint/reusableWidgets/text_box.dart';
@@ -59,19 +58,18 @@ class _MyAccountState extends ConsumerState<MyAccount> {
                     //reset is_active to false as not looking for match
                     ref
                         .read(userNotifierProvider.notifier)
-                        .updateUser({'is_active': false});
+                        .updateUserAndRefetch({'is_active': false});
 
-                    _genderSelectedIndex = genders.indexOf(user?.gender ?? '');
-                    _selectedHobbies = List<String>.from(user?.hobbies ?? []);
-                    _interestSelectedIndex =
-                        genders.indexOf(user?.interestIn ?? '');
+                    _genderSelectedIndex = genders.indexOf(user.gender);
+                    _selectedHobbies = List<String>.from(user.hobbies);
+                    _interestSelectedIndex = genders.indexOf(user.interestIn);
                     _lookingForIndex =
-                        lookingForListEnums.indexOf(user?.lookingFor ?? '');
+                        lookingForListEnums.indexOf(user.lookingFor);
 
                     dobController.text = DateFormat('dd-MM-yyyy')
-                        .format(DateTime.parse(user?.dob ?? ''))
+                        .format(DateTime.parse(user.dob))
                         .toString();
-                    heightController.text = user?.height.toString() ?? '';
+                    heightController.text = user.height.toString();
 
                     return SingleChildScrollView(
                       child: Column(
@@ -210,7 +208,7 @@ class _MyAccountState extends ConsumerState<MyAccount> {
                             children: [
                               const Text('Age search: '),
                               Text(
-                                "${user?.minAge} - ${user?.maxAge}",
+                                "${user.minAge} - ${user.maxAge}",
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold),
                               )

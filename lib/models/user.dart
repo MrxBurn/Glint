@@ -58,29 +58,35 @@ class UserClass {
 @riverpod
 class UserNotifier extends _$UserNotifier {
   @override
-  Future<UserClass?> build() async {
-    return fetchUser();
+  Future<UserClass> build() async {
+    return await fetchUser();
   }
 
-  Future<UserClass?> fetchUser() async {
+  Future<UserClass> fetchUser() async {
     final user = Supabase.instance.client.auth.currentUser;
-    if (user == null) return null;
 
     final response = await Supabase.instance.client
         .from('users')
         .select()
-        .eq('id', user.id)
+        .eq('id', user?.id ?? '')
         .single();
 
     return UserClass.fromMap(response);
   }
 
-  Future<void> updateUser(Map<String, dynamic> updatedData) async {
+  Future<void> updateUserAndRefetch(Map<String, dynamic> updatedData) async {
     await supabase
         .from('users')
         .update(updatedData)
         .eq('id', state.value?.id ?? '');
 
     ref.invalidateSelf();
+  }
+
+  Future<void> updateUserNoRefetch(Map<String, dynamic> updatedData) async {
+    await supabase
+        .from('users')
+        .update(updatedData)
+        .eq('id', state.value?.id ?? '');
   }
 }

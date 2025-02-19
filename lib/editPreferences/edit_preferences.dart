@@ -117,7 +117,9 @@ class _EditPreferencesState extends ConsumerState<EditPreferences> {
       "max_age": _ageRangeValues.end.toInt(),
     };
 
-    await ref.read(userNotifierProvider.notifier).updateUser(updatedData);
+    await ref
+        .read(userNotifierProvider.notifier)
+        .updateUserAndRefetch(updatedData);
 
     setState(() {
       _isLoading = false;
