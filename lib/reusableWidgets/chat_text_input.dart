@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:glint/models/matchUser.dart';
+import 'package:glint/models/message.dart';
 import 'package:glint/utils/variables.dart';
 
-class ChatTextInput extends StatefulWidget {
+class ChatTextInput extends ConsumerStatefulWidget {
   const ChatTextInput({super.key});
 
   @override
-  State<ChatTextInput> createState() => _ChatTextInputState();
+  ConsumerState<ChatTextInput> createState() => _ChatTextInputState();
 }
 
-class _ChatTextInputState extends State<ChatTextInput> {
+class _ChatTextInputState extends ConsumerState<ChatTextInput> {
+  TextEditingController inputController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    final matchedUser = ref.watch(fetchMatchedUsersProvider).value;
+
     return Stack(
       children: [
         TextField(
+          controller: inputController,
           style: const TextStyle(color: Colors.white),
           cursorColor: lightPink,
           decoration: InputDecoration(
@@ -41,12 +49,20 @@ class _ChatTextInputState extends State<ChatTextInput> {
               ),
             ),
           ),
+          onChanged: (value) {
+            setState(() {
+              inputController.text = value;
+            });
+          },
         ),
-        //TODO: Implement on submit
         Align(
           alignment: Alignment.topRight,
           child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                ref
+                    .read(messageNotifierProvider.notifier)
+                    .postMessage(matchedUser?['chat_id'], inputController.text);
+              },
               icon: Icon(
                 size: 32,
                 Icons.arrow_circle_right,

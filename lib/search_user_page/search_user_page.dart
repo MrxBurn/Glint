@@ -26,7 +26,7 @@ class _SearchUserPageState extends ConsumerState<SearchUserPage> {
           if (match == null) {
             return const LoadingScreen();
           } else {
-            return const Center(child: ChatPage());
+            return const ChatPage();
           }
         },
         error: (Object error, StackTrace stackTrace) {

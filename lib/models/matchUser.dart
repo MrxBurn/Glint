@@ -29,7 +29,11 @@ Future<Map<String, dynamic>?> fetchMatchedUsers(Ref ref) async {
       final chat = await supabase.rpc('start_chat',
           params: {'p_user1_id': user.id, 'p_user2_id': matchedUser[0]['id']});
 
-      return {...matchedUser[0], 'chat_id': chat};
+//TODO: REMOVE HARD CODED DATA HERE AND REPLACE WITH chat VARIABLE.
+      return {
+        ...matchedUser[0],
+        'chat_id': '8d0893d3-f485-4ecf-813a-38dbb2979f68'
+      };
     }
   } catch (error) {
     throw Exception('Failed to fetch matched users');
