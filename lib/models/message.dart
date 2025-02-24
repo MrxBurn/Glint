@@ -35,6 +35,7 @@ class MessageNotifier extends _$MessageNotifier {
   }
 
   Future<List<dynamic>> fetchMessages() async {
+    print(matchedUser?['chat_id']);
     final messages = await Supabase.instance.client
         .from('message')
         .select()

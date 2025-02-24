@@ -21,6 +21,8 @@ class _SearchUserPageState extends ConsumerState<SearchUserPage> {
   Widget build(BuildContext context) {
     final matchedUser = ref.watch(fetchMatchedUsersProvider);
 
+    print(matchedUser);
+
     return matchedUser.when(
         data: (match) {
           if (match == null) {
@@ -30,7 +32,7 @@ class _SearchUserPageState extends ConsumerState<SearchUserPage> {
           }
         },
         error: (Object error, StackTrace stackTrace) {
-          return const Text('Something went wrong');
+          return const Center(child: Text('Something went wrong'));
         },
         loading: () => const LoadingScreen());
   }

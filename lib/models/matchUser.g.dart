@@ -6,7 +6,7 @@ part of 'matchUser.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$fetchMatchedUsersHash() => r'fc576a181cc703bcacc93ca92d402c38513b6771';
+String _$fetchMatchedUsersHash() => r'392213b481a00f7e3e6639ec8dda71882803ac36';
 
 /// See also [fetchMatchedUsers].
 @ProviderFor(fetchMatchedUsers)

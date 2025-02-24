@@ -1,0 +1,103 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36" version="26.0.16">
+  <diagram name="Page-1" id="2QbNjgddgj92Tn_fZzer">
+    <mxGraphModel dx="2972" dy="1359" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="AQHVWl8UvtfSvSBZCMMM-1" target="AQHVWl8UvtfSvSBZCMMM-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-1" value="Start" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="354" y="40" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="AQHVWl8UvtfSvSBZCMMM-4" target="AQHVWl8UvtfSvSBZCMMM-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-4" value="Check if chat exists" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="159" y="140" width="510" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-5" value="&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212));&quot;&gt;Somehow make sure is_chatting = true:&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212));&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212));&quot;&gt;If chat exists =&amp;gt; SELECT query for both users from users table and set is_chatting = TRUE&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="AQHVWl8UvtfSvSBZCMMM-4">
+          <mxGeometry x="7" y="40" width="510" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="AQHVWl8UvtfSvSBZCMMM-6" target="AQHVWl8UvtfSvSBZCMMM-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="AQHVWl8UvtfSvSBZCMMM-6" target="AQHVWl8UvtfSvSBZCMMM-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-6" value="Exists?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="374" y="390" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="AQHVWl8UvtfSvSBZCMMM-7" target="AQHVWl8UvtfSvSBZCMMM-26">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="219" y="705" />
+              <mxPoint x="360" y="705" />
+              <mxPoint x="360" y="820" />
+              <mxPoint x="388" y="820" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-7" value="Return chat" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="159" y="500" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="AQHVWl8UvtfSvSBZCMMM-8" target="AQHVWl8UvtfSvSBZCMMM-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-8" value="Search for match&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;(call&amp;nbsp;get_matching_users function)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="488" y="495" width="181" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-10" value="No" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="460" y="398" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-12" value="Yes" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="310" y="398" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="AQHVWl8UvtfSvSBZCMMM-15" target="AQHVWl8UvtfSvSBZCMMM-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-15" value="Return chat" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="380" y="730" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="AQHVWl8UvtfSvSBZCMMM-17" target="AQHVWl8UvtfSvSBZCMMM-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="AQHVWl8UvtfSvSBZCMMM-17" target="AQHVWl8UvtfSvSBZCMMM-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="720" y="665" />
+              <mxPoint x="720" y="20" />
+              <mxPoint x="414" y="20" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-17" value="Is there a match?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="532.75" y="620" width="91.5" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-19" value="Yes" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="492.75" y="638" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-21" value="No" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="624.25" y="638" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-23" value="End" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="348" y="1089" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="AQHVWl8UvtfSvSBZCMMM-26" target="AQHVWl8UvtfSvSBZCMMM-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-26" value="Data Cleanup" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="270" y="850" width="236" height="200" as="geometry">
+            <mxRectangle x="274" y="800" width="110" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-28" value="&lt;div&gt;On disconnect:&lt;/div&gt;&lt;ul&gt;&lt;li&gt;Clear chat table of the existing chat&lt;/li&gt;&lt;li&gt;Wipe all messages linked to that chat (chat_id)&lt;/li&gt;&lt;li&gt;Set user&#39;s is_chatting = FALSE&lt;/li&gt;&lt;/ul&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="AQHVWl8UvtfSvSBZCMMM-26">
+          <mxGeometry x="5" y="30" width="225" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="AQHVWl8UvtfSvSBZCMMM-29" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="AQHVWl8UvtfSvSBZCMMM-27" target="AQHVWl8UvtfSvSBZCMMM-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
