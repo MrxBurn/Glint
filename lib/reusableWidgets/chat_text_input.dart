@@ -62,6 +62,8 @@ class _ChatTextInputState extends ConsumerState<ChatTextInput> {
                 ref
                     .read(messageNotifierProvider.notifier)
                     .postMessage(matchedUser?['chat_id'], inputController.text);
+
+                inputController.clear();
               },
               icon: Icon(
                 size: 32,

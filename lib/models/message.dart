@@ -28,20 +28,20 @@ class MessageNotifier extends _$MessageNotifier {
   late Map<String, dynamic>? matchedUser;
 
   @override
-  Future<List<dynamic>> build() async {
+  Stream<List<Message>> build() {
     user = ref.watch(userNotifierProvider).value;
     matchedUser = ref.watch(fetchMatchedUsersProvider).value;
-    return await fetchMessages();
+    return fetchMessages();
   }
 
-  Future<List<dynamic>> fetchMessages() async {
-    print(matchedUser?['chat_id']);
-    final messages = await Supabase.instance.client
+  Stream<List<Message>> fetchMessages() {
+    return Supabase.instance.client
         .from('message')
-        .select()
-        .eq('chat_id', matchedUser?['chat_id']);
-
-    return messages.map<Message>((json) => Message.fromJson(json)).toList();
+        .stream(primaryKey: ['id'])
+        .eq('chat_id', matchedUser?['chat_id'])
+        .order('created_at', ascending: true)
+        .map((data) =>
+            data.map<Message>((json) => Message.fromJson(json)).toList());
   }
 
   Future<void> postMessage(String chatId, String message) async {
@@ -50,7 +50,5 @@ class MessageNotifier extends _$MessageNotifier {
       'message': message,
       'chat_id': matchedUser?['chat_id']
     });
-
-    ref.invalidateSelf();
   }
 }

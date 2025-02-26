@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:glint/authentication/login/login.dart';
 import 'package:glint/authentication/login/register.dart';
 import 'package:glint/chat/chat_page.dart';
-import 'package:glint/home_page/home_page.dart';
 import 'package:glint/my_account/my_account.dart';
 import 'package:glint/profile_image_upload/profile_image_upload.dart';
+import 'package:glint/home_page/home_page_router.dart';
 import 'package:glint/reusableWidgets/snack_bar.dart';
 import 'package:glint/search_user_page/search_user_page.dart';
 import 'package:glint/utils/variables.dart';
@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> {
               );
             }
             if (snapshot.hasData && snapshot.data?.user != null) {
-              return const HomePage();
+              return const HomePageRouter();
             }
             return const LoginPage();
           }),
@@ -73,7 +73,7 @@ class _MyAppState extends State<MyApp> {
         'yourProfileInfo': (context) => const YourProfileInfo(),
         'profileImageUpload': (context) => const ProfileImageUpload(),
         'verificationPage': (context) => const VerificationPage(),
-        'homePage': (context) => const HomePage(),
+        'homePage': (context) => const HomePageRouter(),
         'myAccount': (context) => const MyAccount(),
         'chatPage': (context) => const ChatPage(),
         'searchUser': (context) => const SearchUserPage()

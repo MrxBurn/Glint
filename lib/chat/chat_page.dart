@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:glint/models/matchUser.dart';
 import 'package:glint/models/message.dart';
+import 'package:glint/models/user.dart';
 import 'package:glint/reusableWidgets/chat_text_input.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
 import 'package:glint/reusableWidgets/header.dart';
@@ -22,6 +24,8 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   @override
   Widget build(BuildContext context) {
     var messages = ref.watch(messageNotifierProvider);
+    var currentUser = ref.read(userNotifierProvider).value;
+    final matchedUser = ref.read(fetchMatchedUsersProvider).value;
 
     return SafeArea(
       child: Column(
@@ -46,10 +50,11 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                       ),
                     ),
                     const Gap(10),
-                    const Text(
-                      'Name of user',
-                      style: TextStyle(fontSize: 24),
+                    Text(
+                      matchedUser?['first_name'],
+                      style: const TextStyle(fontSize: 24),
                     ),
+                    const Gap(24),
                     Expanded(
                         child: messages.when(
                             data: (messages) {
@@ -62,17 +67,18 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                                   scrollDirection: Axis.vertical,
                                   itemBuilder: (context, idx) {
                                     return Align(
-                                      alignment:
-                                          messages[idx].sender == 'Florin'
-                                              ? Alignment.topLeft
-                                              : Alignment.topRight,
+                                      alignment: messages[idx].sender ==
+                                              currentUser?.id
+                                          ? Alignment.topRight
+                                          : Alignment.topLeft,
                                       child: Padding(
                                         padding: const EdgeInsets.only(
                                           left: 16.0,
                                           right: 16,
                                         ),
                                         child: MessageBubble(
-                                          message: messages[idx].message,
+                                          messageObject: messages[idx],
+                                          user: currentUser,
                                         ),
                                       ),
                                     );
