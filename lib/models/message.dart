@@ -1,3 +1,4 @@
+import 'package:glint/models/isChatting.dart';
 import 'package:glint/models/matchUser.dart';
 import 'package:glint/models/user.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

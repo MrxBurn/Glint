@@ -13,11 +13,6 @@ class SearchUserPage extends ConsumerStatefulWidget {
 
 class _SearchUserPageState extends ConsumerState<SearchUserPage> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final matchedUser = ref.watch(fetchMatchedUsersProvider);
 

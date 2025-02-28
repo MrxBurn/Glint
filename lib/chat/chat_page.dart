@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:glint/models/isChatting.dart';
 import 'package:glint/models/matchUser.dart';
 import 'package:glint/models/message.dart';
 import 'package:glint/models/user.dart';
@@ -20,6 +21,16 @@ class ChatPage extends ConsumerStatefulWidget {
 class _ChatPageState extends ConsumerState<ChatPage> {
 //TODO: On menu press, ask if wants to leave chat
 //TODO: IMPROVEMENT, maybe a button to close the chat
+
+  @override
+  void initState() {
+    super.initState();
+    Future(
+      () {
+        ref.read(isChattingNotifierProvider.notifier).setIsChatting(true);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
