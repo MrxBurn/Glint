@@ -6,6 +6,7 @@ import 'package:glint/models/isChatting.dart';
 import 'package:glint/models/matchUser.dart';
 import 'package:glint/my_account/my_account.dart';
 import 'package:glint/reusableWidgets/bottom_navigation_bar.dart';
+import 'package:glint/reusableWidgets/disconnect_chat_modal.dart';
 import 'package:glint/search_user_page/search_user_page.dart';
 
 class HomePageRouter extends ConsumerStatefulWidget {
@@ -38,7 +39,7 @@ class _HomePageRouterState extends ConsumerState<HomePageRouter> {
     final currentIndex = ref.watch(homeRouterNotifierProvider);
     final isChatting = ref.watch(isChattingNotifierProvider);
 
-    print(isChatting);
+    print(currentIndex);
 
     return Scaffold(
         extendBody: true,
@@ -60,17 +61,18 @@ class _HomePageRouterState extends ConsumerState<HomePageRouter> {
         bottomNavigationBar: CustomBottomNavigationBar(
           currentIndex: currentIndex,
           onTap: (value) => {
-            //TODO: Build modal
             if (currentIndex == 0 && value == 1)
               {
-                print('show modal'),
-                ref
-                    .read(isChattingNotifierProvider.notifier)
-                    .setIsChatting(false)
+                openBox(
+                    context,
+                    ref.read(isChattingNotifierProvider.notifier).setIsChatting,
+                    ref.read(homeRouterNotifierProvider.notifier).updateIndex),
               },
 
+            //TODO: Navigate back to Account
             if (!isChatting)
               {
+                print('cal'),
                 ref
                     .read(homeRouterNotifierProvider.notifier)
                     .updateIndex(value),
