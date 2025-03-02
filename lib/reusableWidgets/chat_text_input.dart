@@ -5,7 +5,9 @@ import 'package:glint/models/message.dart';
 import 'package:glint/utils/variables.dart';
 
 class ChatTextInput extends ConsumerStatefulWidget {
-  const ChatTextInput({super.key});
+  const ChatTextInput({super.key, required this.onPressed});
+
+  final Function(Map<String, dynamic>) onPressed;
 
   @override
   ConsumerState<ChatTextInput> createState() => _ChatTextInputState();
@@ -25,6 +27,8 @@ class _ChatTextInputState extends ConsumerState<ChatTextInput> {
           style: const TextStyle(color: Colors.white),
           cursorColor: lightPink,
           decoration: InputDecoration(
+            hintText: 'Press to type...',
+            hintStyle: const TextStyle(color: Colors.grey),
             filled: true,
             fillColor: darkGreen,
             border: const OutlineInputBorder(
@@ -49,20 +53,20 @@ class _ChatTextInputState extends ConsumerState<ChatTextInput> {
               ),
             ),
           ),
-          //TODO: FIX INPUT TEXT WHEN WRITTING
-          onChanged: (value) {
-            setState(() {
-              inputController.text = value;
-            });
-          },
         ),
         Align(
           alignment: Alignment.topRight,
           child: IconButton(
-              onPressed: () {
+              onPressed: () async {
                 ref
                     .read(messageNotifierProvider.notifier)
                     .postMessage(matchedUser?['chat_id'], inputController.text);
+
+                final chatRoom = await ref
+                    .read(messageNotifierProvider.notifier)
+                    .fetchChatRoom();
+
+                widget.onPressed(chatRoom);
 
                 inputController.clear();
               },
