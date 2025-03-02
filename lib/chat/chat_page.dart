@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:glint/models/isChatting.dart';
@@ -22,6 +25,8 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 //TODO: On menu press, ask if wants to leave chat
 //TODO: IMPROVEMENT, maybe a button to close the chat
 
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -32,11 +37,31 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     );
   }
 
+  Map<String, dynamic> chatRoom = {};
+
+  void setChatRoom(Map<String, dynamic> pChatRoom) {
+    setState(() {
+      chatRoom = pChatRoom;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var messages = ref.watch(messageNotifierProvider);
     var currentUser = ref.read(userNotifierProvider).value;
     final matchedUser = ref.read(fetchMatchedUsersProvider).value;
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+
+    print(chatRoom);
 
     return SafeArea(
       child: Column(
@@ -70,6 +95,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                         child: messages.when(
                             data: (messages) {
                               return ListView.separated(
+                                  controller: _scrollController,
                                   physics:
                                       const AlwaysScrollableScrollPhysics(),
                                   separatorBuilder: (context, idx) =>
@@ -101,6 +127,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                             loading: () => const Center(
                                   child: CircularProgressIndicator(),
                                 ))),
+                    const Gap(10),
                     const ChatTextInput()
                   ],
                 ),

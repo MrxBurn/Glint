@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glint/models/homeRouter.dart';
 import 'package:glint/models/isChatting.dart';
-import 'package:glint/models/matchUser.dart';
 import 'package:glint/my_account/my_account.dart';
 import 'package:glint/reusableWidgets/bottom_navigation_bar.dart';
 import 'package:glint/reusableWidgets/disconnect_chat_modal.dart';
@@ -39,8 +38,6 @@ class _HomePageRouterState extends ConsumerState<HomePageRouter> {
     final currentIndex = ref.watch(homeRouterNotifierProvider);
     final isChatting = ref.watch(isChattingNotifierProvider);
 
-    print(currentIndex);
-
     return Scaffold(
         extendBody: true,
         body: Stack(
@@ -64,15 +61,14 @@ class _HomePageRouterState extends ConsumerState<HomePageRouter> {
             if (currentIndex == 0 && value == 1)
               {
                 openBox(
-                    context,
-                    ref.read(isChattingNotifierProvider.notifier).setIsChatting,
-                    ref.read(homeRouterNotifierProvider.notifier).updateIndex),
+                  context,
+                  ref.read(isChattingNotifierProvider.notifier).setIsChatting,
+                  ref.read(homeRouterNotifierProvider.notifier).updateIndex,
+                ),
+                _customWidget = onTapCallBack(value),
               },
-
-            //TODO: Navigate back to Account
             if (!isChatting)
               {
-                print('cal'),
                 ref
                     .read(homeRouterNotifierProvider.notifier)
                     .updateIndex(value),

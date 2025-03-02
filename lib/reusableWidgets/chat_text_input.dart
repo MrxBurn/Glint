@@ -49,6 +49,7 @@ class _ChatTextInputState extends ConsumerState<ChatTextInput> {
               ),
             ),
           ),
+          //TODO: FIX INPUT TEXT WHEN WRITTING
           onChanged: (value) {
             setState(() {
               inputController.text = value;

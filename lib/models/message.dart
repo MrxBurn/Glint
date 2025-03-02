@@ -32,10 +32,10 @@ class MessageNotifier extends _$MessageNotifier {
   Stream<List<Message>> build() {
     user = ref.watch(userNotifierProvider).value;
     matchedUser = ref.watch(fetchMatchedUsersProvider).value;
-    return fetchMessages();
+    return streamMessages();
   }
 
-  Stream<List<Message>> fetchMessages() {
+  Stream<List<Message>> streamMessages() {
     return Supabase.instance.client
         .from('message')
         .stream(primaryKey: ['id'])
@@ -51,5 +51,13 @@ class MessageNotifier extends _$MessageNotifier {
       'message': message,
       'chat_id': matchedUser?['chat_id']
     });
+  }
+
+  Future<Map<String, dynamic>> fetchChatRoom() async {
+    return await Supabase.instance.client
+        .from('chat')
+        .select()
+        .eq('id', matchedUser?['chat_id'])
+        .single();
   }
 }

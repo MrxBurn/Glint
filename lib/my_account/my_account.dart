@@ -58,7 +58,8 @@ class _MyAccountState extends ConsumerState<MyAccount> {
                     //reset is_active to false as not looking for match
                     ref
                         .read(userNotifierProvider.notifier)
-                        .updateUserAndRefetch({'is_active': false});
+                        .updateUserAndRefetch(
+                            {'is_active': false, 'is_chatting': false});
 
                     _genderSelectedIndex = genders.indexOf(user.gender);
                     _selectedHobbies = List<String>.from(user.hobbies);
