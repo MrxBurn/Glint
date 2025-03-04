@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glint/models/homeRouter.dart';
 import 'package:glint/models/isChatting.dart';
+import 'package:glint/models/user.dart';
 import 'package:glint/my_account/my_account.dart';
 import 'package:glint/reusableWidgets/bottom_navigation_bar.dart';
 import 'package:glint/reusableWidgets/disconnect_chat_modal.dart';
@@ -23,10 +24,14 @@ class HomePageRouter extends ConsumerStatefulWidget {
 
 class _HomePageRouterState extends ConsumerState<HomePageRouter> {
   Widget _customWidget = const MyAccount();
-  Widget onTapCallBack(int currentIndex) {
+  Widget onTapCallBack(int currentIndex, WidgetRef ref) {
     if (currentIndex == 0) {
       return const SearchUserPage();
     } else if (currentIndex == 1) {
+      //reset is_active to false as not looking for match
+      ref
+          .read(userNotifierProvider.notifier)
+          .updateUserAndRefetch({'is_active': false, 'is_chatting': false});
       return const MyAccount();
     }
 
@@ -65,14 +70,14 @@ class _HomePageRouterState extends ConsumerState<HomePageRouter> {
                   ref.read(isChattingNotifierProvider.notifier).setIsChatting,
                   ref.read(homeRouterNotifierProvider.notifier).updateIndex,
                 ),
-                _customWidget = onTapCallBack(value),
+                _customWidget = onTapCallBack(value, ref),
               },
             if (!isChatting)
               {
                 ref
                     .read(homeRouterNotifierProvider.notifier)
                     .updateIndex(value),
-                _customWidget = onTapCallBack(value),
+                _customWidget = onTapCallBack(value, ref),
               }
           },
         ));

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:glint/models/chat.dart';
 import 'package:glint/models/chatExists.dart';
 import 'package:glint/models/user.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -6,7 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'matchUser.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<Map<String, dynamic>?> fetchMatchedUsers(Ref ref) async {
   final supabase = Supabase.instance.client;
 

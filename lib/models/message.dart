@@ -22,7 +22,7 @@ class Message {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class MessageNotifier extends _$MessageNotifier {
   late UserClass? user;
 
@@ -51,13 +51,5 @@ class MessageNotifier extends _$MessageNotifier {
       'message': message,
       'chat_id': matchedUser?['chat_id']
     });
-  }
-
-  Future<Map<String, dynamic>> fetchChatRoom() async {
-    return await Supabase.instance.client
-        .from('chat')
-        .select()
-        .eq('id', matchedUser?['chat_id'])
-        .single();
   }
 }

@@ -22,8 +22,11 @@ void openBox(BuildContext context, Function(bool) onYesFunction,
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () =>
-                  {onYesFunction(false), setIndex(1), Navigator.pop(context)},
+              onPressed: () => {
+                //TODO: Invalidate everything
+
+                onYesFunction(false), setIndex(1), Navigator.pop(context)
+              },
               child: const Text('Yes'),
             ),
           ],

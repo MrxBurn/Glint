@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:glint/models/chat.dart';
 import 'package:glint/models/matchUser.dart';
 import 'package:glint/models/message.dart';
 import 'package:glint/utils/variables.dart';
 
 class ChatTextInput extends ConsumerStatefulWidget {
-  const ChatTextInput({super.key, required this.onPressed});
-
-  final Function(Map<String, dynamic>) onPressed;
+  const ChatTextInput({
+    super.key,
+  });
 
   @override
   ConsumerState<ChatTextInput> createState() => _ChatTextInputState();
@@ -62,11 +63,7 @@ class _ChatTextInputState extends ConsumerState<ChatTextInput> {
                     .read(messageNotifierProvider.notifier)
                     .postMessage(matchedUser?['chat_id'], inputController.text);
 
-                final chatRoom = await ref
-                    .read(messageNotifierProvider.notifier)
-                    .fetchChatRoom();
-
-                widget.onPressed(chatRoom);
+                ref.invalidate(fetchChatRoomProvider);
 
                 inputController.clear();
               },

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:glint/models/chat.dart';
 import 'package:glint/models/isChatting.dart';
 import 'package:glint/models/matchUser.dart';
 import 'package:glint/models/message.dart';
@@ -36,19 +37,12 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     );
   }
 
-  Map<String, dynamic> chatRoom = {};
-
-  void setChatRoom(Map<String, dynamic> pChatRoom) {
-    setState(() {
-      chatRoom = pChatRoom;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     var messages = ref.watch(messageNotifierProvider);
     var currentUser = ref.read(userNotifierProvider).value;
     final matchedUser = ref.read(fetchMatchedUsersProvider).value;
+    final chatRoom = ref.watch(fetchChatRoomProvider);
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
@@ -60,8 +54,6 @@ class _ChatPageState extends ConsumerState<ChatPage> {
       }
     });
 
-    bool isChatActive = chatRoom.isEmpty || chatRoom['is_chat_active'] == true;
-
     return SafeArea(
       child: Column(
         children: [
@@ -71,93 +63,107 @@ class _ChatPageState extends ConsumerState<ChatPage> {
               padding: paddingLRT,
               child: FormContainer(
                 width: double.infinity,
-                child: isChatActive
-                    ? Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          const Gap(10),
-                          Center(
-                            child: CircleAvatar(
-                              radius: 45,
-                              backgroundColor: darkGreen,
-                              child: const Text(
-                                'Photo',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 12),
-                              ),
-                            ),
-                          ),
-                          const Gap(10),
-                          Text(
-                            matchedUser?['first_name'],
-                            style: const TextStyle(fontSize: 24),
-                          ),
-                          const Gap(24),
-                          Expanded(
-                              child: messages.when(
-                                  data: (messages) {
-                                    return ListView.separated(
-                                        controller: _scrollController,
-                                        physics:
-                                            const AlwaysScrollableScrollPhysics(),
-                                        separatorBuilder: (context, idx) =>
-                                            const Gap(10),
-                                        itemCount: messages.length,
-                                        scrollDirection: Axis.vertical,
-                                        itemBuilder: (context, idx) {
-                                          return Align(
-                                            alignment: messages[idx].sender ==
-                                                    currentUser?.id
-                                                ? Alignment.topRight
-                                                : Alignment.topLeft,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                left: 16.0,
-                                                right: 16,
+                child: chatRoom.when(
+                    data: (room) {
+                      bool? isChatActive = (!!room['user_1_active'] &&
+                          !!room['user_2_active'] == true);
+//TODO: Check if disconnect logic works
+
+                      return isChatActive
+                          ? Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                const Gap(10),
+                                Center(
+                                  child: CircleAvatar(
+                                    radius: 45,
+                                    backgroundColor: darkGreen,
+                                    child: const Text(
+                                      'Photo',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 12),
+                                    ),
+                                  ),
+                                ),
+                                const Gap(10),
+                                Text(
+                                  matchedUser?['first_name'],
+                                  style: const TextStyle(fontSize: 24),
+                                ),
+                                const Gap(24),
+                                Expanded(
+                                  child: messages.when(
+                                    data: (messages) {
+                                      return ListView.separated(
+                                          controller: _scrollController,
+                                          physics:
+                                              const AlwaysScrollableScrollPhysics(),
+                                          separatorBuilder: (context, idx) =>
+                                              const Gap(10),
+                                          itemCount: messages.length,
+                                          scrollDirection: Axis.vertical,
+                                          itemBuilder: (context, idx) {
+                                            return Align(
+                                              alignment: messages[idx].sender ==
+                                                      currentUser?.id
+                                                  ? Alignment.topRight
+                                                  : Alignment.topLeft,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: 16.0,
+                                                  right: 16,
+                                                ),
+                                                child: MessageBubble(
+                                                  messageObject: messages[idx],
+                                                  user: currentUser,
+                                                ),
                                               ),
-                                              child: MessageBubble(
-                                                messageObject: messages[idx],
-                                                user: currentUser,
-                                              ),
-                                            ),
-                                          );
-                                        });
-                                  },
-                                  error: (Object error, StackTrace stackTrace) {
-                                    return const Text('Something went wrong');
-                                  },
-                                  loading: () => const Center(
-                                        child: CircularProgressIndicator(),
-                                      ))),
-                          const Gap(10),
-                          isChatActive
-                              ? ChatTextInput(
-                                  onPressed: setChatRoom,
-                                )
-                              : const SizedBox()
-                        ],
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: Container(
-                              constraints: const BoxConstraints(
-                                  maxHeight: 300, maxWidth: 300),
-                              child: Image.asset(
-                                'illustrations/disconnect_img.jpg',
-                              ),
-                            ),
-                          ),
-                          const Text(
-                            'The chat has been closed by the other person :(',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
+                                            );
+                                          });
+                                    },
+                                    error:
+                                        (Object error, StackTrace stackTrace) {
+                                      return const Text('Something went wrong');
+                                    },
+                                    loading: () => const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  ),
+                                ),
+                                const Gap(10),
+                                isChatActive
+                                    ? const ChatTextInput()
+                                    : const SizedBox()
+                              ],
+                            )
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Center(
+                                  child: Container(
+                                    constraints: const BoxConstraints(
+                                        maxHeight: 300, maxWidth: 300),
+                                    child: Image.asset(
+                                      'illustrations/disconnect_img.jpg',
+                                    ),
+                                  ),
+                                ),
+                                const Text(
+                                  'The chat has been closed by the other person :(',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            );
+                    },
+                    error: (Object error, StackTrace stackTrace) {
+                      return const Text('Something went wrong');
+                    },
+                    loading: () => const Center(
+                          child: CircularProgressIndicator(),
+                        )),
               ),
             ),
-          ),
+          )
         ],
       ),
     );
