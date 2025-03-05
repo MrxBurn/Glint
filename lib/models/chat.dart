@@ -5,14 +5,50 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'chat.g.dart';
 
-@riverpod
-Future<Map<String, dynamic>> fetchChatRoom(Ref ref) async {
-  Map<String, dynamic>? matchedUser =
-      await ref.read(fetchMatchedUsersProvider.future);
-
-  return await Supabase.instance.client
+Future<void> update(String chatId, Map<String, dynamic> updatedData) async {
+  await Supabase.instance.client
       .from('chat')
-      .select()
-      .eq('id', matchedUser?['chat_id'])
-      .single();
+      .update(updatedData)
+      .eq('id', chatId);
+}
+
+@Riverpod(keepAlive: true)
+class ChatRoomNotifier extends _$ChatRoomNotifier {
+  @override
+  Future<Map<String, dynamic>> build() async {
+    return await fetchChatRoom();
+  }
+
+  Future<Map<String, dynamic>> fetchChatRoom() async {
+    Map<String, dynamic>? matchedUser =
+        ref.read(fetchMatchedUsersProvider).value;
+
+    return await Supabase.instance.client
+        .from('chat')
+        .select()
+        .eq('id', matchedUser?['chat_id'])
+        .single();
+  }
+
+  Future<void> updateChatRoom() async {
+    if (state.value == null) {
+      return;
+    }
+
+    String stateValueChatId = state.value?['id'] ?? '';
+
+//TODO: if you go in first 2 ifs, delete chat and messages function in DB
+    if (state.value?['user_1_active'] == false) {
+      await update(stateValueChatId, {'user_2_active': false});
+      print('delete');
+    }
+    if (state.value?['user_2_active'] == false) {
+      await update(stateValueChatId, {'user_1_active': false});
+      print('delete');
+    }
+    if (state.value?['user_1_active'] == true &&
+        state.value?['user_2_active'] == true) {
+      await update(stateValueChatId, {'user_1_active': false});
+    }
+  }
 }

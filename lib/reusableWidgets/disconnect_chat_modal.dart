@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:glint/models/chat.dart';
+import 'package:glint/models/homeRouter.dart';
+import 'package:glint/models/isChatting.dart';
+import 'package:glint/models/matchUser.dart';
+import 'package:glint/models/message.dart';
+import 'package:glint/models/user.dart';
 
-void openBox(BuildContext context, Function(bool) onYesFunction,
-    Function(int) setIndex) {
+void openBox(BuildContext context, WidgetRef ref) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -22,10 +28,19 @@ void openBox(BuildContext context, Function(bool) onYesFunction,
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () => {
-                //TODO: Invalidate everything
+              onPressed: () async {
+                ref
+                    .read(isChattingNotifierProvider.notifier)
+                    .setIsChatting(false);
+                ref.read(homeRouterNotifierProvider.notifier).updateIndex(1);
 
-                onYesFunction(false), setIndex(1), Navigator.pop(context)
+                ref.invalidate(messageNotifierProvider);
+                ref.invalidate(fetchMatchedUsersProvider);
+                ref.invalidate(chatRoomNotifierProvider);
+
+                ref.read(chatRoomNotifierProvider.notifier).updateChatRoom();
+
+                Navigator.pop(context);
               },
               child: const Text('Yes'),
             ),

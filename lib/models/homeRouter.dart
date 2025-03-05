@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'homeRouter.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class HomeRouterNotifier extends _$HomeRouterNotifier {
   @override
   int build() {

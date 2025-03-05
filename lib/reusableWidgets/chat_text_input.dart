@@ -63,7 +63,7 @@ class _ChatTextInputState extends ConsumerState<ChatTextInput> {
                     .read(messageNotifierProvider.notifier)
                     .postMessage(matchedUser?['chat_id'], inputController.text);
 
-                ref.invalidate(fetchChatRoomProvider);
+                ref.invalidate(chatRoomNotifierProvider);
 
                 inputController.clear();
               },

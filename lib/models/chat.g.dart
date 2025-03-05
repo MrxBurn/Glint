@@ -6,23 +6,21 @@ part of 'chat.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$fetchChatRoomHash() => r'2f945b0f5330a137151bc3b5af0421ef5c4fe03e';
+String _$chatRoomNotifierHash() => r'47fa7c279497fe26489b170d5686841a41bc89a4';
 
-/// See also [fetchChatRoom].
-@ProviderFor(fetchChatRoom)
-final fetchChatRoomProvider =
-    AutoDisposeFutureProvider<Map<String, dynamic>>.internal(
-  fetchChatRoom,
-  name: r'fetchChatRoomProvider',
+/// See also [ChatRoomNotifier].
+@ProviderFor(ChatRoomNotifier)
+final chatRoomNotifierProvider =
+    AsyncNotifierProvider<ChatRoomNotifier, Map<String, dynamic>>.internal(
+  ChatRoomNotifier.new,
+  name: r'chatRoomNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$fetchChatRoomHash,
+      : _$chatRoomNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef FetchChatRoomRef = AutoDisposeFutureProviderRef<Map<String, dynamic>>;
+typedef _$ChatRoomNotifier = AsyncNotifier<Map<String, dynamic>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

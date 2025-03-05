@@ -28,10 +28,6 @@ class _HomePageRouterState extends ConsumerState<HomePageRouter> {
     if (currentIndex == 0) {
       return const SearchUserPage();
     } else if (currentIndex == 1) {
-      //reset is_active to false as not looking for match
-      ref
-          .read(userNotifierProvider.notifier)
-          .updateUserAndRefetch({'is_active': false, 'is_chatting': false});
       return const MyAccount();
     }
 
@@ -65,11 +61,7 @@ class _HomePageRouterState extends ConsumerState<HomePageRouter> {
           onTap: (value) => {
             if (currentIndex == 0 && value == 1)
               {
-                openBox(
-                  context,
-                  ref.read(isChattingNotifierProvider.notifier).setIsChatting,
-                  ref.read(homeRouterNotifierProvider.notifier).updateIndex,
-                ),
+                openBox(context, ref),
                 _customWidget = onTapCallBack(value, ref),
               },
             if (!isChatting)

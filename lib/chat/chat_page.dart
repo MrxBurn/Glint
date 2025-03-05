@@ -42,7 +42,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     var messages = ref.watch(messageNotifierProvider);
     var currentUser = ref.read(userNotifierProvider).value;
     final matchedUser = ref.read(fetchMatchedUsersProvider).value;
-    final chatRoom = ref.watch(fetchChatRoomProvider);
+    final chatRoom = ref.watch(chatRoomNotifierProvider);
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
@@ -65,9 +65,8 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                 width: double.infinity,
                 child: chatRoom.when(
                     data: (room) {
-                      bool? isChatActive = (!!room['user_1_active'] &&
-                          !!room['user_2_active'] == true);
-//TODO: Check if disconnect logic works
+                      bool? isChatActive =
+                          (!!room['user_1_active'] && !!room['user_2_active']);
 
                       return isChatActive
                           ? Column(
