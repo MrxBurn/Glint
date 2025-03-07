@@ -12,7 +12,12 @@ Future<void> update(String chatId, Map<String, dynamic> updatedData) async {
       .eq('id', chatId);
 }
 
-@Riverpod(keepAlive: true)
+Future<void> delete(String chatId) async {
+  await Supabase.instance.client
+      .rpc('delete_chat_and_messages', params: {'p_chat_id': chatId});
+}
+
+@riverpod
 class ChatRoomNotifier extends _$ChatRoomNotifier {
   @override
   Future<Map<String, dynamic>> build() async {
@@ -37,18 +42,18 @@ class ChatRoomNotifier extends _$ChatRoomNotifier {
 
     String stateValueChatId = state.value?['id'] ?? '';
 
-//TODO: if you go in first 2 ifs, delete chat and messages function in DB
     if (state.value?['user_1_active'] == false) {
       await update(stateValueChatId, {'user_2_active': false});
-      print('delete');
+      await delete(stateValueChatId);
     }
     if (state.value?['user_2_active'] == false) {
       await update(stateValueChatId, {'user_1_active': false});
-      print('delete');
+      await delete(stateValueChatId);
     }
     if (state.value?['user_1_active'] == true &&
         state.value?['user_2_active'] == true) {
       await update(stateValueChatId, {'user_1_active': false});
     }
+    ref.invalidateSelf();
   }
 }

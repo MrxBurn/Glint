@@ -28,16 +28,6 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   final ScrollController _scrollController = ScrollController();
 
   @override
-  void initState() {
-    super.initState();
-    Future(
-      () {
-        ref.read(isChattingNotifierProvider.notifier).setIsChatting(true);
-      },
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
     var messages = ref.watch(messageNotifierProvider);
     var currentUser = ref.read(userNotifierProvider).value;
@@ -52,6 +42,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
           curve: Curves.easeOut,
         );
       }
+      ref.read(isChattingNotifierProvider.notifier).setIsChatting(true);
     });
 
     return SafeArea(
@@ -67,6 +58,8 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                     data: (room) {
                       bool? isChatActive =
                           (!!room['user_1_active'] && !!room['user_2_active']);
+
+                      print(chatRoom);
 
                       return isChatActive
                           ? Column(
@@ -93,32 +86,43 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                                 Expanded(
                                   child: messages.when(
                                     data: (messages) {
-                                      return ListView.separated(
-                                          controller: _scrollController,
-                                          physics:
-                                              const AlwaysScrollableScrollPhysics(),
-                                          separatorBuilder: (context, idx) =>
-                                              const Gap(10),
-                                          itemCount: messages.length,
-                                          scrollDirection: Axis.vertical,
-                                          itemBuilder: (context, idx) {
-                                            return Align(
-                                              alignment: messages[idx].sender ==
-                                                      currentUser?.id
-                                                  ? Alignment.topRight
-                                                  : Alignment.topLeft,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                  left: 16.0,
-                                                  right: 16,
-                                                ),
-                                                child: MessageBubble(
-                                                  messageObject: messages[idx],
-                                                  user: currentUser,
-                                                ),
-                                              ),
+                                      final returnedWidget = messages.isNotEmpty
+                                          ? ListView.separated(
+                                              controller: _scrollController,
+                                              physics:
+                                                  const AlwaysScrollableScrollPhysics(),
+                                              separatorBuilder:
+                                                  (context, idx) =>
+                                                      const Gap(10),
+                                              itemCount: messages.length,
+                                              scrollDirection: Axis.vertical,
+                                              itemBuilder: (context, idx) {
+                                                return Align(
+                                                  alignment:
+                                                      messages[idx].sender ==
+                                                              currentUser?.id
+                                                          ? Alignment.topRight
+                                                          : Alignment.topLeft,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                      left: 16.0,
+                                                      right: 16,
+                                                    ),
+                                                    child: MessageBubble(
+                                                      messageObject:
+                                                          messages[idx],
+                                                      user: currentUser,
+                                                    ),
+                                                  ),
+                                                );
+                                              })
+                                          : const Text(
+                                              'There are currently no messages. Feel free to start chatting',
+                                              textAlign: TextAlign.center,
                                             );
-                                          });
+
+                                      return returnedWidget;
                                     },
                                     error:
                                         (Object error, StackTrace stackTrace) {

@@ -55,9 +55,13 @@ class _MyAccountState extends ConsumerState<MyAccount> {
                 padding: const EdgeInsets.all(16.0),
                 child: userAsync.when(
                   data: (user) {
-                    //reset is_active to false as not looking for match
-                    ref.read(userNotifierProvider.notifier).updateUserNoRefetch(
-                        {'is_active': false, 'is_chatting': false});
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      //reset is_active to false as not looking for match
+                      ref
+                          .read(userNotifierProvider.notifier)
+                          .updateUserNoRefetch(
+                              {'is_active': false, 'is_chatting': false});
+                    });
 
                     _genderSelectedIndex = genders.indexOf(user.gender);
                     _selectedHobbies = List<String>.from(user.hobbies);

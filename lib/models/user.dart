@@ -55,7 +55,7 @@ class UserClass {
   }
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 class UserNotifier extends _$UserNotifier {
   @override
   Future<UserClass> build() async {

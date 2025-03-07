@@ -22,7 +22,7 @@ class Message {
   }
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 class MessageNotifier extends _$MessageNotifier {
   late UserClass? user;
 

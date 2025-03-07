@@ -7,19 +7,24 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'matchUser.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<Map<String, dynamic>?> fetchMatchedUsers(Ref ref) async {
   final supabase = Supabase.instance.client;
 
-  ref.read(userNotifierProvider.notifier
-      .select((v) => v.updateUserNoRefetch({'is_active': true})));
+  await ref
+      .watch(userNotifierProvider.notifier)
+      .updateUserNoRefetch({'is_active': true});
 
   final user = ref.read(userNotifierProvider).value as UserClass;
+
+  print(user.id);
 
   try {
     //check if chat exists
     List<Map<String, dynamic>> existingChat = await supabase
         .rpc('check_if_chat_exists', params: {'p_user1_id': user.id});
+
+    print(existingChat);
 
     //if doesn't exist
     if (existingChat[0]['existing_chat_id'] == null) {
@@ -42,10 +47,7 @@ Future<Map<String, dynamic>?> fetchMatchedUsers(Ref ref) async {
         });
 
         //TODO: REMOVE HARD CODED DATA HERE AND REPLACE WITH chat VARIABLE.
-        return {
-          ...matchedUser[0],
-          'chat_id': 'e2e8c0d4-1d82-4c9e-bb14-f31c373be415'
-        };
+        return {...matchedUser[0], 'chat_id': chat};
       }
     } else {
       // get current existing chat and return it

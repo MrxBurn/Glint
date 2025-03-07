@@ -38,7 +38,9 @@ void openBox(BuildContext context, WidgetRef ref) {
                 ref.invalidate(fetchMatchedUsersProvider);
                 ref.invalidate(chatRoomNotifierProvider);
 
-                ref.read(chatRoomNotifierProvider.notifier).updateChatRoom();
+                await ref
+                    .read(chatRoomNotifierProvider.notifier)
+                    .updateChatRoom();
 
                 Navigator.pop(context);
               },

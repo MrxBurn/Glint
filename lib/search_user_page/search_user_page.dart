@@ -25,7 +25,10 @@ class _SearchUserPageState extends ConsumerState<SearchUserPage> {
           }
         },
         error: (Object error, StackTrace stackTrace) {
-          return const Center(child: Text('Something went wrong'));
+          print(error);
+          print(stackTrace);
+          return const Center(
+              child: Text('Something went wrong in search_user_page.dart'));
         },
         loading: () => const LoadingScreen());
   }

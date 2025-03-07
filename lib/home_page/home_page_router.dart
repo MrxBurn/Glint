@@ -59,7 +59,7 @@ class _HomePageRouterState extends ConsumerState<HomePageRouter> {
         bottomNavigationBar: CustomBottomNavigationBar(
           currentIndex: currentIndex,
           onTap: (value) => {
-            if (currentIndex == 0 && value == 1)
+            if (currentIndex == 0 && value == 1 && isChatting)
               {
                 openBox(context, ref),
                 _customWidget = onTapCallBack(value, ref),
