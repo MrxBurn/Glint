@@ -5,6 +5,17 @@ import 'package:glint/models/matchUser.dart';
 import 'package:glint/models/message.dart';
 import 'package:glint/utils/variables.dart';
 
+void sendMessage(WidgetRef ref, TextEditingController controller,
+    Map<String, dynamic>? matchedUser) {
+  ref
+      .read(messageNotifierProvider.notifier)
+      .postMessage(matchedUser?['chat_id'], controller.text);
+
+  ref.invalidate(chatRoomNotifierProvider);
+
+  controller.clear();
+}
+
 class ChatTextInput extends ConsumerStatefulWidget {
   const ChatTextInput({
     super.key,
@@ -17,6 +28,8 @@ class ChatTextInput extends ConsumerStatefulWidget {
 class _ChatTextInputState extends ConsumerState<ChatTextInput> {
   TextEditingController inputController = TextEditingController();
 
+  FocusNode focusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     final matchedUser = ref.watch(fetchMatchedUsersProvider).value;
@@ -24,6 +37,7 @@ class _ChatTextInputState extends ConsumerState<ChatTextInput> {
     return Stack(
       children: [
         TextField(
+          focusNode: focusNode,
           controller: inputController,
           style: const TextStyle(color: Colors.white),
           cursorColor: lightPink,
@@ -54,18 +68,17 @@ class _ChatTextInputState extends ConsumerState<ChatTextInput> {
               ),
             ),
           ),
+          onSubmitted: (_) {
+            sendMessage(ref, inputController, matchedUser);
+            FocusScope.of(context).requestFocus(focusNode);
+          },
         ),
         Align(
           alignment: Alignment.topRight,
           child: IconButton(
               onPressed: () async {
-                ref
-                    .read(messageNotifierProvider.notifier)
-                    .postMessage(matchedUser?['chat_id'], inputController.text);
-
-                ref.invalidate(chatRoomNotifierProvider);
-
-                inputController.clear();
+                sendMessage(ref, inputController, matchedUser);
+                FocusScope.of(context).requestFocus(focusNode);
               },
               icon: Icon(
                 size: 32,

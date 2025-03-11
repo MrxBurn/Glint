@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:glint/chat/chat_page.dart';
@@ -12,6 +14,14 @@ class SearchUserPage extends ConsumerStatefulWidget {
 }
 
 class _SearchUserPageState extends ConsumerState<SearchUserPage> {
+  Timer? _timer;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _timer?.cancel();
+  }
+
   @override
   Widget build(BuildContext context) {
     final matchedUser = ref.watch(fetchMatchedUsersProvider);
@@ -19,8 +29,13 @@ class _SearchUserPageState extends ConsumerState<SearchUserPage> {
     return matchedUser.when(
         data: (match) {
           if (match == null) {
+            //TODO: Maybe improve this
+            _timer = Timer(const Duration(seconds: 10), () {
+              ref.invalidate(fetchMatchedUsersProvider);
+            });
             return const LoadingScreen();
           } else {
+            _timer?.cancel();
             return const ChatPage();
           }
         },

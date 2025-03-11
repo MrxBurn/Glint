@@ -5,7 +5,6 @@ import 'package:glint/models/homeRouter.dart';
 import 'package:glint/models/isChatting.dart';
 import 'package:glint/models/matchUser.dart';
 import 'package:glint/models/message.dart';
-import 'package:glint/models/user.dart';
 
 void openBox(BuildContext context, WidgetRef ref) {
   showDialog(

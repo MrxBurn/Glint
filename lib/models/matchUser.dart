@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:glint/models/chat.dart';
 import 'package:glint/models/chatExists.dart';
 import 'package:glint/models/user.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
