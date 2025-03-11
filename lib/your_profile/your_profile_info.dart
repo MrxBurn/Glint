@@ -107,7 +107,9 @@ class _YourProfileInfoState extends State<YourProfileInfo> {
           'min_age': _ageRangeValues.start.toInt(),
           'max_age': _ageRangeValues.end.toInt(),
           'is_active': false,
-          'is_chatting': false
+          'is_chatting': false,
+          'is_auth_finished': false,
+          'is_approved': false
         }).then((e) => print('success'));
 
     setState(() {
