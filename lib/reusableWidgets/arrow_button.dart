@@ -3,9 +3,10 @@ import 'package:glint/reusableWidgets/custom_elevated_button.dart';
 import 'package:glint/utils/variables.dart';
 
 class ArrowButton extends StatefulWidget {
-  const ArrowButton({super.key, this.onPressed});
+  const ArrowButton({super.key, this.onPressed, this.isDisabled = false});
 
   final void Function()? onPressed;
+  final bool isDisabled;
 
   @override
   State<ArrowButton> createState() => _ArrowButtonState();
@@ -16,17 +17,19 @@ class _ArrowButtonState extends State<ArrowButton> {
   Widget build(BuildContext context) {
     return CustomElevatedButton(
       style: ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll(darkGreen),
+        backgroundColor: widget.isDisabled
+            ? const WidgetStatePropertyAll(Colors.grey)
+            : WidgetStatePropertyAll(darkGreen),
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
         ),
       ),
-      onPressed: widget.onPressed,
+      onPressed: widget.isDisabled ? null : widget.onPressed,
       child: Icon(
         Icons.arrow_forward,
-        color: lightPink,
+        color: widget.isDisabled ? darkGreen : lightPink,
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:glint/reusableWidgets/arrow_button.dart';
@@ -5,6 +7,7 @@ import 'package:glint/reusableWidgets/form_container.dart';
 import 'package:glint/reusableWidgets/header.dart';
 import 'package:glint/reusableWidgets/scaffold.dart';
 import 'package:glint/utils/variables.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileImageUpload extends StatefulWidget {
   const ProfileImageUpload({super.key});
@@ -15,6 +18,19 @@ class ProfileImageUpload extends StatefulWidget {
 
 class _ProfileImageUploadState extends State<ProfileImageUpload> {
   final double gap = 16;
+  XFile? image;
+
+  void pickImage(ImageSource source) async {
+    final ImagePicker picker = ImagePicker();
+    XFile? selectedImage = await picker.pickImage(source: source);
+
+    setState(() {
+      image = selectedImage;
+    });
+
+    print(image?.name);
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -40,16 +56,27 @@ class _ProfileImageUploadState extends State<ProfileImageUpload> {
                       style: TextStyle(fontSize: 12),
                     ),
                     Gap(gap),
-                    Center(
-                      child: CircleAvatar(
-                        radius: 75,
-                        backgroundColor: darkGreen,
-                        child: const Text(
-                          'Upload',
-                          style: TextStyle(color: Colors.white, fontSize: 12),
+                    ElevatedButton(
+                        style: const ButtonStyle(
+                          elevation: WidgetStatePropertyAll(0),
+                          backgroundColor:
+                              WidgetStatePropertyAll(Colors.transparent),
+                          overlayColor:
+                              WidgetStatePropertyAll(Colors.transparent),
                         ),
-                      ),
-                    ),
+                        //TODO: Create camera/gallery selector
+                        onPressed: () => pickImage,
+                        child: Center(
+                          child: CircleAvatar(
+                            radius: 75,
+                            backgroundColor: darkGreen,
+                            child: const Text(
+                              'Upload',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 12),
+                            ),
+                          ),
+                        )),
                     Gap(gap),
                     const Center(
                       child: Text(
@@ -61,6 +88,7 @@ class _ProfileImageUploadState extends State<ProfileImageUpload> {
                     Gap(gap),
                     Center(
                       child: ArrowButton(
+                        isDisabled: image == null,
                         onPressed: () =>
                             Navigator.pushNamed(context, 'verificationPage'),
                       ),
@@ -68,7 +96,10 @@ class _ProfileImageUploadState extends State<ProfileImageUpload> {
                   ],
                 ),
               )),
-        )
+        ),
+        TextButton(
+            onPressed: () => pickImage(ImageSource.camera),
+            child: const Text('Test'))
       ],
     ));
   }

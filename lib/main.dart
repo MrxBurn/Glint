@@ -65,7 +65,7 @@ class _MyAppState extends State<MyApp> {
             if (snapshot.hasData && snapshot.data?.user != null) {
               return const HomePageRouter();
             }
-            return const LoginPage();
+            return const ProfileImageUpload();
           }),
       routes: {
         'loginPage': (context) => const LoginPage(),
