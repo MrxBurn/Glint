@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:glint/main.dart';
+import 'package:glint/models/registeredUser.dart';
 import 'package:glint/reusableWidgets/arrow_button.dart';
 import 'package:glint/reusableWidgets/error_field.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
@@ -15,14 +17,14 @@ import 'package:glint/utils/variables.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class YourProfileInfo extends StatefulWidget {
+class YourProfileInfo extends ConsumerStatefulWidget {
   const YourProfileInfo({super.key});
 
   @override
-  State<YourProfileInfo> createState() => _YourProfileInfoState();
+  ConsumerState<YourProfileInfo> createState() => _YourProfileInfoState();
 }
 
-class _YourProfileInfoState extends State<YourProfileInfo> {
+class _YourProfileInfoState extends ConsumerState<YourProfileInfo> {
   TextEditingController dobController = TextEditingController();
   TextEditingController heightController = TextEditingController();
   TextEditingController ageController = TextEditingController();
@@ -110,7 +112,11 @@ class _YourProfileInfoState extends State<YourProfileInfo> {
           'is_chatting': false,
           'is_auth_finished': false,
           'is_approved': false
-        }).then((e) => print('success'));
+        }).then((user) => {
+
+          //TODO: Fix this and continue with bucket
+          ref.read(registeredUserNotifierProvider.notifier).setRegisteredUser(user);
+          print(e.user?.id)});
 
     setState(() {
       dobController.text = '';
@@ -392,7 +398,8 @@ class _YourProfileInfoState extends State<YourProfileInfo> {
                                   _lookingForValue.isNotEmpty) {
                                 createAccount();
                                 //TODO: Implement Face Verification
-                                // Navigator.pushNamed(context, 'profileImageUpload');
+                                Navigator.pushNamed(
+                                    context, 'profileImageUpload');
                               }
                             },
                           ),

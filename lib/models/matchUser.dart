@@ -45,7 +45,6 @@ Future<Map<String, dynamic>?> fetchMatchedUsers(Ref ref) async {
           'p_user2_id': matchedUser[0]['id']
         });
 
-        //TODO: REMOVE HARD CODED DATA HERE AND REPLACE WITH chat VARIABLE.
         return {...matchedUser[0], 'chat_id': chat};
       }
     } else {

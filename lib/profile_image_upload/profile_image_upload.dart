@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:glint/reusableWidgets/arrow_button.dart';
+import 'package:glint/reusableWidgets/camera_gallery_modal.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
 import 'package:glint/reusableWidgets/header.dart';
 import 'package:glint/reusableWidgets/scaffold.dart';
@@ -27,8 +28,6 @@ class _ProfileImageUploadState extends State<ProfileImageUpload> {
     setState(() {
       image = selectedImage;
     });
-
-    print(image?.name);
   }
 
   @override
@@ -64,18 +63,22 @@ class _ProfileImageUploadState extends State<ProfileImageUpload> {
                           overlayColor:
                               WidgetStatePropertyAll(Colors.transparent),
                         ),
-                        //TODO: Create camera/gallery selector
-                        onPressed: () => pickImage,
+                        onPressed: () =>
+                            openCameraGalleryDialog(context, pickImage),
                         child: Center(
                           child: CircleAvatar(
-                            radius: 75,
-                            backgroundColor: darkGreen,
-                            child: const Text(
-                              'Upload',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 12),
-                            ),
-                          ),
+                              radius: 75,
+                              backgroundColor: darkGreen,
+                              foregroundImage: image != null
+                                  ? NetworkImage(image?.path ?? '')
+                                  : null,
+                              child: image == null
+                                  ? const Text(
+                                      'Upload',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 12),
+                                    )
+                                  : const SizedBox()),
                         )),
                     Gap(gap),
                     const Center(
@@ -97,9 +100,6 @@ class _ProfileImageUploadState extends State<ProfileImageUpload> {
                 ),
               )),
         ),
-        TextButton(
-            onPressed: () => pickImage(ImageSource.camera),
-            child: const Text('Test'))
       ],
     ));
   }
