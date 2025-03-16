@@ -89,4 +89,16 @@ class UserNotifier extends _$UserNotifier {
         .update(updatedData)
         .eq('id', state.value?.id ?? '');
   }
+
+  String getProfilePhoto() {
+    try {
+      return supabase.storage.from('authDocuments').getPublicUrl(
+            'profilePhotos/${state.value?.id}_profilePhoto.png',
+          );
+    } catch (e, stackTrace) {
+      print(e.toString());
+      print(stackTrace);
+    }
+    return '';
+  }
 }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -34,8 +32,6 @@ class _ProfileImageUploadState extends ConsumerState<ProfileImageUpload> {
 
   @override
   Widget build(BuildContext context) {
-    print(ref.watch(registeredUserNotifierProvider)?.user);
-
     return CustomScaffold(
         children: Column(
       children: [
@@ -100,7 +96,8 @@ class _ProfileImageUploadState extends ConsumerState<ProfileImageUpload> {
                           final bytes = await image?.readAsBytes();
                           await ref
                               .read(registeredUserNotifierProvider.notifier)
-                              .uploadProfilePhoto(bytes);
+                              .uploadProfilePhoto(
+                                  bytes, 'profilePhoto', 'profilePhotos');
                           Navigator.pushNamed(context, 'verificationPage');
                         },
                       ),

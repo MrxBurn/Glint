@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:glint/main.dart';
@@ -18,13 +17,12 @@ class RegisteredUserNotifier extends _$RegisteredUserNotifier {
     state = user;
   }
 
-  Future<void> uploadProfilePhoto(Uint8List? photo) async {
-    print(photo);
+  Future<void> uploadProfilePhoto(
+      Uint8List? photo, String photoName, String folderName) async {
     try {
       if (photo != null) {
-        print('is aici');
         await supabase.storage.from('authDocuments').uploadBinary(
-              'profilePhotos/${state?.user?.id}.png',
+              '$folderName/${state?.user?.id}_$photoName.png',
               photo,
               fileOptions:
                   const FileOptions(cacheControl: '3600', upsert: false),

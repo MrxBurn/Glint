@@ -7,7 +7,7 @@ part of 'registeredUser.dart';
 // **************************************************************************
 
 String _$registeredUserNotifierHash() =>
-    r'd0afb5f90e1b64e241632ed02ce0cd5bbf00d093';
+    r'bc80b9229eae1f59cecb93ee7554111814461ada';
 
 /// See also [RegisteredUserNotifier].
 @ProviderFor(RegisteredUserNotifier)
