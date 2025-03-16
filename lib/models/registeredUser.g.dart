@@ -7,12 +7,12 @@ part of 'registeredUser.dart';
 // **************************************************************************
 
 String _$registeredUserNotifierHash() =>
-    r'b118aa08779fb4d6b940ccedcf992eb6951638c3';
+    r'd0afb5f90e1b64e241632ed02ce0cd5bbf00d093';
 
 /// See also [RegisteredUserNotifier].
 @ProviderFor(RegisteredUserNotifier)
-final registeredUserNotifierProvider = AutoDisposeNotifierProvider<
-    RegisteredUserNotifier, Map<String, dynamic>>.internal(
+final registeredUserNotifierProvider =
+    AutoDisposeNotifierProvider<RegisteredUserNotifier, AuthResponse?>.internal(
   RegisteredUserNotifier.new,
   name: r'registeredUserNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final registeredUserNotifierProvider = AutoDisposeNotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$RegisteredUserNotifier = AutoDisposeNotifier<Map<String, dynamic>>;
+typedef _$RegisteredUserNotifier = AutoDisposeNotifier<AuthResponse?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

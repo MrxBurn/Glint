@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:glint/models/registeredUser.dart';
 import 'package:glint/reusableWidgets/arrow_button.dart';
 import 'package:glint/reusableWidgets/camera_gallery_modal.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
@@ -10,14 +12,14 @@ import 'package:glint/reusableWidgets/scaffold.dart';
 import 'package:glint/utils/variables.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ProfileImageUpload extends StatefulWidget {
+class ProfileImageUpload extends ConsumerStatefulWidget {
   const ProfileImageUpload({super.key});
 
   @override
-  State<ProfileImageUpload> createState() => _ProfileImageUploadState();
+  ConsumerState<ProfileImageUpload> createState() => _ProfileImageUploadState();
 }
 
-class _ProfileImageUploadState extends State<ProfileImageUpload> {
+class _ProfileImageUploadState extends ConsumerState<ProfileImageUpload> {
   final double gap = 16;
   XFile? image;
 
@@ -32,6 +34,8 @@ class _ProfileImageUploadState extends State<ProfileImageUpload> {
 
   @override
   Widget build(BuildContext context) {
+    print(ref.watch(registeredUserNotifierProvider)?.user);
+
     return CustomScaffold(
         children: Column(
       children: [
@@ -92,8 +96,13 @@ class _ProfileImageUploadState extends State<ProfileImageUpload> {
                     Center(
                       child: ArrowButton(
                         isDisabled: image == null,
-                        onPressed: () =>
-                            Navigator.pushNamed(context, 'verificationPage'),
+                        onPressed: () async {
+                          final bytes = await image?.readAsBytes();
+                          await ref
+                              .read(registeredUserNotifierProvider.notifier)
+                              .uploadProfilePhoto(bytes);
+                          Navigator.pushNamed(context, 'verificationPage');
+                        },
                       ),
                     ),
                   ],

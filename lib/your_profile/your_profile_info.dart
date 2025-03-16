@@ -89,7 +89,7 @@ class _YourProfileInfoState extends ConsumerState<YourProfileInfo> {
   }
 
 //TODO: Move creation of account only when user is verified
-  void createAccount() async {
+  Future<void> createAccount() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     supabase.auth.signUp(
         email: prefs.getString('email'),
@@ -113,10 +113,11 @@ class _YourProfileInfoState extends ConsumerState<YourProfileInfo> {
           'is_auth_finished': false,
           'is_approved': false
         }).then((user) => {
-
-          //TODO: Fix this and continue with bucket
-          ref.read(registeredUserNotifierProvider.notifier).setRegisteredUser(user);
-          print(e.user?.id)});
+          ref
+              .read(registeredUserNotifierProvider.notifier)
+              .setRegisteredUser(user),
+          print(user.user?.id)
+        });
 
     setState(() {
       dobController.text = '';
@@ -387,7 +388,7 @@ class _YourProfileInfoState extends ConsumerState<YourProfileInfo> {
                         const Gap(32),
                         Center(
                           child: ArrowButton(
-                            onPressed: () {
+                            onPressed: () async {
                               setState(() {
                                 _formSubmitted = true;
                               });
@@ -396,7 +397,7 @@ class _YourProfileInfoState extends ConsumerState<YourProfileInfo> {
                                   _interestValue.isNotEmpty &&
                                   _selectedHobbies.isNotEmpty &&
                                   _lookingForValue.isNotEmpty) {
-                                createAccount();
+                                await createAccount();
                                 //TODO: Implement Face Verification
                                 Navigator.pushNamed(
                                     context, 'profileImageUpload');
