@@ -10,7 +10,6 @@ import 'package:glint/reusableWidgets/single_select_box.dart';
 import 'package:glint/reusableWidgets/text_box.dart';
 import 'package:glint/utils/lists.dart';
 import 'package:glint/utils/variables.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:glint/models/user.dart';
 
@@ -41,7 +40,7 @@ class _MyAccountState extends ConsumerState<MyAccount> {
 
   UserClass? user;
 
-  XFile? image;
+  String? image;
 
   @override
   void didChangeDependencies() {
@@ -76,6 +75,12 @@ class _MyAccountState extends ConsumerState<MyAccount> {
                                 .read(userNotifierProvider.notifier)
                                 .updateUserNoRefetch(
                                     {'is_active': false, 'is_chatting': false});
+
+                            setState(() {
+                              image = ref
+                                  .watch(userNotifierProvider.notifier)
+                                  .getProfilePhoto();
+                            });
                           });
 
                           _genderSelectedIndex = genders.indexOf(user.gender);
@@ -262,19 +267,22 @@ class _MyAccountState extends ConsumerState<MyAccount> {
                       )),
                 ),
               ),
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: Center(
-                  child: CircleAvatar(
-                      radius: 75,
-                      backgroundColor: darkGreen,
-                      foregroundImage: NetworkImage(ref
-                          .watch(userNotifierProvider.notifier)
-                          .getProfilePhoto())),
-                ),
-              ),
+              image != null
+                  ? Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      child: Center(
+                        child: CircleAvatar(
+                          radius: 75,
+                          backgroundColor: darkGreen,
+                          foregroundImage: NetworkImage(
+                            image ?? '',
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
             ],
           ),
         ),

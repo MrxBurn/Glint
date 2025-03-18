@@ -57,8 +57,6 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                       bool? isChatActive =
                           (!!room['user_1_active'] && !!room['user_2_active']);
 
-                      print(chatRoom);
-
                       return isChatActive
                           ? Column(
                               mainAxisSize: MainAxisSize.max,
@@ -68,10 +66,11 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                                   child: CircleAvatar(
                                     radius: 45,
                                     backgroundColor: darkGreen,
-                                    child: const Text(
-                                      'Photo',
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 12),
+                                    foregroundImage: NetworkImage(
+                                      ref
+                                          .read(userNotifierProvider.notifier)
+                                          .getProfilePhoto(
+                                              userId: matchedUser?['id']),
                                     ),
                                   ),
                                 ),
