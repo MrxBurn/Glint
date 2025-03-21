@@ -10,6 +10,7 @@ import 'package:glint/reusableWidgets/snack_bar.dart';
 import 'package:glint/search_user_page/search_user_page.dart';
 import 'package:glint/utils/variables.dart';
 import 'package:glint/verification_page/verification_page.dart';
+import 'package:glint/waitingApprovalPage/waiting_approval_page.dart';
 import 'package:glint/your_profile/your_profile_info.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -27,19 +28,9 @@ Future<void> main() async {
 
 final supabase = Supabase.instance.client;
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-Future<UserResponse> isUserLoggedIn() async {
-  UserResponse user = await supabase.auth.getUser();
-  return user;
-}
-
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -54,16 +45,25 @@ class _MyAppState extends State<MyApp> {
         ),
         textSelectionTheme: TextSelectionThemeData(cursorColor: darkGreen),
       ),
-      home: FutureBuilder(
-          future: isUserLoggedIn(),
-          builder: (context, AsyncSnapshot<UserResponse> snapshot) {
+      home: StreamBuilder(
+          stream: isUserLoggedIn(),
+          builder: (context, AsyncSnapshot<AuthState> snapshot) {
+            print(snapshot.connectionState);
+            print(snapshot.data?.session?.user);
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
-            if (snapshot.hasData && snapshot.data?.user != null) {
-              return const HomePageRouter();
+            if (snapshot.data?.session?.user != null) {
+              if (snapshot
+                      .data?.session?.user.appMetadata['is_auth_finished'] ==
+                  false) {
+                //TODO: FIX THIS
+                return const WaitingApprovalPage();
+              } else {
+                return const HomePageRouter();
+              }
             }
             return const LoginPage();
           }),
@@ -80,4 +80,8 @@ class _MyAppState extends State<MyApp> {
       },
     );
   }
+}
+
+Stream<AuthState> isUserLoggedIn() {
+  return supabase.auth.onAuthStateChange;
 }

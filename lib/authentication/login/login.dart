@@ -28,9 +28,6 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await supabase.auth.signInWithPassword(
           email: _emailController.text, password: _passwordController.text);
-      if (context.mounted) {
-        Navigator.pushNamed(context, 'homePage');
-      }
     } on AuthApiException catch (e) {
       SnackbarGlobal.show(e.message);
     }
@@ -107,13 +104,14 @@ class _LoginPageState extends State<LoginPage> {
                         const Gap(24),
                         Center(
                             child: CustomButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              login(context);
+                              await login(context);
+                              // Navigator.pushNamed(context, 'homePage');
                             }
                           },
                           text: 'Login',
-                        ))
+                        )),
                       ],
                     ),
                   ),

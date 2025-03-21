@@ -243,11 +243,9 @@ class _MyAccountState extends ConsumerState<MyAccount> {
                                 Gap(gap),
                                 Center(
                                     child: CustomElevatedButton(
-                                  onPressed: () {
+                                  onPressed: () async {
                                     ref.invalidate(userNotifierProvider);
-                                    supabase.auth.signOut();
-                                    Navigator.pushReplacementNamed(
-                                        context, 'loginPage');
+                                    await supabase.auth.signOut();
                                   },
                                   isLoading: false,
                                   child: const Text('Logout'),
