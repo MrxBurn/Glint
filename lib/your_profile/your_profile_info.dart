@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:glint/main.dart';
-import 'package:glint/models/registeredUser.dart';
 import 'package:glint/reusableWidgets/arrow_button.dart';
 import 'package:glint/reusableWidgets/error_field.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
@@ -91,7 +90,7 @@ class _YourProfileInfoState extends ConsumerState<YourProfileInfo> {
 //TODO: Move creation of account only when user is verified
   Future<void> createAccount() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    supabase.auth.signUp(
+    final response = await supabase.auth.signUp(
         email: prefs.getString('email'),
         password: prefs.getString('password') ?? '',
         data: {
@@ -112,11 +111,6 @@ class _YourProfileInfoState extends ConsumerState<YourProfileInfo> {
           'is_chatting': false,
           'is_auth_finished': false,
           'is_approved': false
-        }).then((user) => {
-          ref
-              .read(registeredUserNotifierProvider.notifier)
-              .setRegisteredUser(user),
-          print(user.user?.id)
         });
 
     setState(() {

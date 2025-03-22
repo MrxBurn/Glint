@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:glint/models/registeredUser.dart';
+import 'package:glint/models/user.dart';
 import 'package:glint/reusableWidgets/arrow_button.dart';
 import 'package:glint/reusableWidgets/camera_gallery_modal.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
@@ -33,6 +34,9 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final registeredUser =
+        ref.watch(registeredUserNotifierProvider)?.user?.id ?? '';
+
     return CustomScaffold(
         children: Column(
       children: [
@@ -91,6 +95,14 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
                               .read(registeredUserNotifierProvider.notifier)
                               .uploadProfilePhoto(bytes, 'verificationPhoto',
                                   'verificationPhotos');
+
+                          print(registeredUser);
+                          await ref
+                              .read(userNotifierProvider.notifier)
+                              .updateUserNoRefetch(
+                                  {'is_auth_finished': true}, registeredUser);
+
+                          ref.invalidate(userNotifierProvider);
 
                           Navigator.pushNamed(context, 'homePage');
                         },

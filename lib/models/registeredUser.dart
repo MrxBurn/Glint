@@ -10,6 +10,11 @@ part 'registeredUser.g.dart';
 class RegisteredUserNotifier extends _$RegisteredUserNotifier {
   @override
   AuthResponse? build() {
+    supabase.auth.onAuthStateChange.listen((data) {
+      if (data.session != null) {
+        state = AuthResponse(session: data.session!, user: data.session!.user);
+      }
+    });
     return null;
   }
 

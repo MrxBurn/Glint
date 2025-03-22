@@ -48,22 +48,13 @@ class MyApp extends StatelessWidget {
       home: StreamBuilder(
           stream: isUserLoggedIn(),
           builder: (context, AsyncSnapshot<AuthState> snapshot) {
-            print(snapshot.connectionState);
-            print(snapshot.data?.session?.user);
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
             if (snapshot.data?.session?.user != null) {
-              if (snapshot
-                      .data?.session?.user.appMetadata['is_auth_finished'] ==
-                  false) {
-                //TODO: FIX THIS
-                return const WaitingApprovalPage();
-              } else {
-                return const HomePageRouter();
-              }
+              return const HomePageRouter();
             }
             return const LoginPage();
           }),

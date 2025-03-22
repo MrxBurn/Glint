@@ -32,6 +32,10 @@ class _ProfileImageUploadState extends ConsumerState<ProfileImageUpload> {
 
   @override
   Widget build(BuildContext context) {
+    final x = ref.watch(registeredUserNotifierProvider);
+
+    print(x?.user?.id);
+
     return CustomScaffold(
         children: Column(
       children: [

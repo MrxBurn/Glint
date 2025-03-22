@@ -78,7 +78,7 @@ class _MyAccountState extends ConsumerState<MyAccount> {
 
                             setState(() {
                               image = ref
-                                  .watch(userNotifierProvider.notifier)
+                                  .read(userNotifierProvider.notifier)
                                   .getProfilePhoto();
                             });
                           });

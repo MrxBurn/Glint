@@ -107,7 +107,6 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               await login(context);
-                              // Navigator.pushNamed(context, 'homePage');
                             }
                           },
                           text: 'Login',
