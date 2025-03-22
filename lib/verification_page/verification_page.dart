@@ -8,6 +8,7 @@ import 'package:glint/reusableWidgets/camera_gallery_modal.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
 import 'package:glint/reusableWidgets/header.dart';
 import 'package:glint/reusableWidgets/scaffold.dart';
+import 'package:glint/utils/uploadPhoto.dart';
 import 'package:glint/utils/variables.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -91,10 +92,8 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
                         isDisabled: image == null,
                         onPressed: () async {
                           final bytes = await image?.readAsBytes();
-                          await ref
-                              .read(registeredUserNotifierProvider.notifier)
-                              .uploadProfilePhoto(bytes, 'verificationPhoto',
-                                  'verificationPhotos');
+                          await uploadProfilePhoto(bytes, 'verificationPhoto',
+                              'verificationPhotos', registeredUser);
 
                           print(registeredUser);
                           await ref

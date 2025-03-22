@@ -3,13 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:glint/editPreferences/edit_preferences.dart';
 import 'package:glint/main.dart';
+import 'package:glint/models/registeredUser.dart';
+import 'package:glint/reusableWidgets/camera_gallery_modal.dart';
 import 'package:glint/reusableWidgets/custom_elevated_button.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
 import 'package:glint/reusableWidgets/multi_select_box.dart';
 import 'package:glint/reusableWidgets/single_select_box.dart';
 import 'package:glint/reusableWidgets/text_box.dart';
 import 'package:glint/utils/lists.dart';
+import 'package:glint/utils/uploadPhoto.dart';
 import 'package:glint/utils/variables.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:glint/models/user.dart';
 
@@ -42,10 +46,31 @@ class _MyAccountState extends ConsumerState<MyAccount> {
 
   String? image;
 
+  XFile? pickedImage;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     ref.read(userNotifierProvider.notifier).getProfilePhoto();
+  }
+
+  void pickImage(ImageSource source) async {
+    final ImagePicker picker = ImagePicker();
+    XFile? selectedImage = await picker.pickImage(source: source);
+
+    setState(() {
+      pickedImage = selectedImage;
+    });
+
+    final bytes = await pickedImage?.readAsBytes();
+//TODO: Fix updateProfilePhoto - some caching issues
+    if (bytes != null) {
+      print('maimuta');
+      await updateProfilePhoto(bytes, 'profilePhoto', 'profilePhotos',
+          supabase.auth.currentUser?.id ?? '');
+
+      ref.invalidate(userNotifierProvider);
+    }
   }
 
   @override
@@ -75,12 +100,6 @@ class _MyAccountState extends ConsumerState<MyAccount> {
                                 .read(userNotifierProvider.notifier)
                                 .updateUserNoRefetch(
                                     {'is_active': false, 'is_chatting': false});
-
-                            setState(() {
-                              image = ref
-                                  .read(userNotifierProvider.notifier)
-                                  .getProfilePhoto();
-                            });
                           });
 
                           _genderSelectedIndex = genders.indexOf(user.gender);
@@ -265,22 +284,31 @@ class _MyAccountState extends ConsumerState<MyAccount> {
                       )),
                 ),
               ),
-              image != null
-                  ? Positioned(
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      child: Center(
-                        child: CircleAvatar(
-                          radius: 75,
-                          backgroundColor: darkGreen,
-                          foregroundImage: NetworkImage(
-                            image ?? '',
-                          ),
-                        ),
-                      ),
-                    )
-                  : const SizedBox(),
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: ElevatedButton(
+                    style: const ButtonStyle(
+                      elevation: WidgetStatePropertyAll(0),
+                      backgroundColor:
+                          WidgetStatePropertyAll(Colors.transparent),
+                      overlayColor: WidgetStatePropertyAll(Colors.transparent),
+                    ),
+                    onPressed: () =>
+                        openCameraGalleryDialog(context, pickImage),
+                    child: CircleAvatar(
+                      radius: 75,
+                      backgroundColor: darkGreen,
+                      foregroundImage: NetworkImage(ref
+                          .read(userNotifierProvider.notifier)
+                          .getProfilePhoto(
+                              userId: supabase.auth.currentUser?.id)),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

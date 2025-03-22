@@ -16,14 +16,10 @@ Future<Map<String, dynamic>?> fetchMatchedUsers(Ref ref) async {
 
   final user = ref.read(userNotifierProvider).value as UserClass;
 
-  print(user.id);
-
   try {
     //check if chat exists
     List<Map<String, dynamic>> existingChat = await supabase
         .rpc('check_if_chat_exists', params: {'p_user1_id': user.id});
-
-    print(existingChat);
 
     //if doesn't exist
     if (existingChat[0]['existing_chat_id'] == null) {

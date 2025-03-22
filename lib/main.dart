@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:glint/authentication/login/login.dart';
 import 'package:glint/authentication/login/register.dart';
 import 'package:glint/chat/chat_page.dart';
+import 'package:glint/models/persistUserState.dart';
 import 'package:glint/my_account/my_account.dart';
 import 'package:glint/profile_image_upload/profile_image_upload.dart';
 import 'package:glint/home_page/home_page_router.dart';
@@ -28,11 +29,13 @@ Future<void> main() async {
 
 final supabase = Supabase.instance.client;
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userIsLoggedIn = ref.watch(persistUserProvider);
+
     return MaterialApp(
       scaffoldMessengerKey: SnackbarGlobal.key,
       theme: ThemeData(
@@ -45,19 +48,31 @@ class MyApp extends StatelessWidget {
         ),
         textSelectionTheme: TextSelectionThemeData(cursorColor: darkGreen),
       ),
-      home: StreamBuilder(
-          stream: isUserLoggedIn(),
-          builder: (context, AsyncSnapshot<AuthState> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (snapshot.data?.session?.user != null) {
+      home: userIsLoggedIn.when(
+          data: (persistedUser) {
+            if (persistedUser.session?.user != null) {
               return const HomePageRouter();
             }
             return const LoginPage();
-          }),
+          },
+          error: (error, stackTrace) => const Text('Something went wrong'),
+          loading: () => const Center(
+                child: CircularProgressIndicator(),
+              )),
+
+      // StreamBuilder(
+      //     stream: isUserLoggedIn(),
+      //     builder: (context, AsyncSnapshot<AuthState> snapshot) {
+      //       if (snapshot.connectionState == ConnectionState.waiting) {
+      //         return const Center(
+      //           child: CircularProgressIndicator(),
+      //         );
+      //       }
+      //       if (snapshot.data?.session?.user != null) {
+      //         return const HomePageRouter();
+      //       }
+      //       return const LoginPage();
+      //     }),
       routes: {
         'loginPage': (context) => const LoginPage(),
         'registerPage': (context) => const RegisterPage(),

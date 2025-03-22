@@ -7,6 +7,7 @@ import 'package:glint/reusableWidgets/camera_gallery_modal.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
 import 'package:glint/reusableWidgets/header.dart';
 import 'package:glint/reusableWidgets/scaffold.dart';
+import 'package:glint/utils/uploadPhoto.dart';
 import 'package:glint/utils/variables.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -32,9 +33,8 @@ class _ProfileImageUploadState extends ConsumerState<ProfileImageUpload> {
 
   @override
   Widget build(BuildContext context) {
-    final x = ref.watch(registeredUserNotifierProvider);
-
-    print(x?.user?.id);
+    final registeredUser =
+        ref.watch(registeredUserNotifierProvider)?.user?.id ?? '';
 
     return CustomScaffold(
         children: Column(
@@ -98,10 +98,8 @@ class _ProfileImageUploadState extends ConsumerState<ProfileImageUpload> {
                         isDisabled: image == null,
                         onPressed: () async {
                           final bytes = await image?.readAsBytes();
-                          await ref
-                              .read(registeredUserNotifierProvider.notifier)
-                              .uploadProfilePhoto(
-                                  bytes, 'profilePhoto', 'profilePhotos');
+                          await uploadProfilePhoto(bytes, 'profilePhoto',
+                              'profilePhotos', registeredUser);
                           Navigator.pushNamed(context, 'verificationPage');
                         },
                       ),

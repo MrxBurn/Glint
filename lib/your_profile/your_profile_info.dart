@@ -90,7 +90,7 @@ class _YourProfileInfoState extends ConsumerState<YourProfileInfo> {
 //TODO: Move creation of account only when user is verified
   Future<void> createAccount() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final response = await supabase.auth.signUp(
+    await supabase.auth.signUp(
         email: prefs.getString('email'),
         password: prefs.getString('password') ?? '',
         data: {

@@ -21,21 +21,4 @@ class RegisteredUserNotifier extends _$RegisteredUserNotifier {
   void setRegisteredUser(AuthResponse user) {
     state = user;
   }
-
-  Future<void> uploadProfilePhoto(
-      Uint8List? photo, String photoName, String folderName) async {
-    try {
-      if (photo != null) {
-        await supabase.storage.from('authDocuments').uploadBinary(
-              '$folderName/${state?.user?.id}_$photoName.png',
-              photo,
-              fileOptions:
-                  const FileOptions(cacheControl: '3600', upsert: false),
-            );
-      }
-    } catch (e, stackTrace) {
-      print(e.toString());
-      print(stackTrace);
-    }
-  }
 }
