@@ -289,22 +289,23 @@ class _MyAccountState extends ConsumerState<MyAccount> {
                 left: 0,
                 right: 0,
                 child: Center(
-                  child: ElevatedButton(
-                    style: const ButtonStyle(
-                      elevation: WidgetStatePropertyAll(0),
-                      backgroundColor:
-                          WidgetStatePropertyAll(Colors.transparent),
-                      overlayColor: WidgetStatePropertyAll(Colors.transparent),
-                    ),
-                    onPressed: () =>
-                        openCameraGalleryDialog(context, pickImage),
-                    child: CircleAvatar(
-                      radius: 75,
-                      backgroundColor: darkGreen,
-                      foregroundImage: NetworkImage(ref
-                          .read(userNotifierProvider.notifier)
-                          .getProfilePhoto(
-                              userId: supabase.auth.currentUser?.id)),
+                  child: CircleAvatar(
+                    radius: 75,
+                    backgroundColor: darkGreen,
+                    backgroundImage: NetworkImage(ref
+                        .read(userNotifierProvider.notifier)
+                        .getProfilePhoto(
+                            userId: supabase.auth.currentUser?.id)),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                          style: ButtonStyle(
+                              iconColor: WidgetStatePropertyAll(lightPink),
+                              backgroundColor:
+                                  WidgetStatePropertyAll(darkGreen)),
+                          onPressed: () =>
+                              openCameraGalleryDialog(context, pickImage),
+                          icon: const Icon(Icons.edit)),
                     ),
                   ),
                 ),

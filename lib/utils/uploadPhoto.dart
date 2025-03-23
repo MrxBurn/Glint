@@ -26,7 +26,9 @@ Future<void> updateProfilePhoto(Uint8List? photo, String photoName,
       await supabase.storage.from('authDocuments').updateBinary(
             '$folderName/${userId}_$photoName.png',
             photo,
-            fileOptions: const FileOptions(upsert: true),
+            fileOptions: const FileOptions(
+              upsert: true,
+            ),
           );
 
       print('cal');

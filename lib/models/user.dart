@@ -101,9 +101,9 @@ class UserNotifier extends _$UserNotifier {
 
   String getProfilePhoto({String? userId}) {
     try {
-      return supabase.storage.from('authDocuments').getPublicUrl(
+      return "${supabase.storage.from('authDocuments').getPublicUrl(
             'profilePhotos/${userId ?? state.value?.id}_profilePhoto.png',
-          );
+          )}?time=${DateTime.now()}"; //fix to stop image from caching
     } catch (e, stackTrace) {
       print(e.toString());
       print(stackTrace);

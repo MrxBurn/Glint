@@ -11,6 +11,7 @@ import 'package:glint/reusableWidgets/chat_text_input.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
 import 'package:glint/reusableWidgets/header.dart';
 import 'package:glint/reusableWidgets/message_bubble.dart';
+import 'package:glint/reusableWidgets/report_modal.dart';
 import 'package:glint/utils/variables.dart';
 
 class ChatPage extends ConsumerStatefulWidget {
@@ -31,6 +32,8 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     var currentUser = ref.read(userNotifierProvider).value;
     final matchedUser = ref.read(fetchMatchedUsersProvider).value;
     final chatRoom = ref.watch(chatRoomNotifierProvider);
+
+    TextEditingController reportController = TextEditingController();
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
@@ -58,82 +61,108 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                           (!!room['user_1_active'] && !!room['user_2_active']);
 
                       return isChatActive
-                          ? Column(
-                              mainAxisSize: MainAxisSize.max,
+                          ? Stack(
                               children: [
-                                const Gap(10),
-                                Center(
-                                  child: CircleAvatar(
-                                    radius: 45,
-                                    backgroundColor: darkGreen,
-                                    foregroundImage: NetworkImage(
-                                      ref
-                                          .read(userNotifierProvider.notifier)
-                                          .getProfilePhoto(
-                                              userId: matchedUser?['id']),
+                                Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    const Gap(10),
+                                    Center(
+                                      child: CircleAvatar(
+                                        radius: 45,
+                                        backgroundColor: darkGreen,
+                                        foregroundImage: NetworkImage(
+                                          ref
+                                              .read(
+                                                  userNotifierProvider.notifier)
+                                              .getProfilePhoto(
+                                                  userId: matchedUser?['id']),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                const Gap(10),
-                                Text(
-                                  matchedUser?['first_name'],
-                                  style: const TextStyle(fontSize: 24),
-                                ),
-                                const Gap(24),
-                                Expanded(
-                                  child: messages.when(
-                                    data: (messages) {
-                                      final returnedWidget = messages.isNotEmpty
-                                          ? ListView.separated(
-                                              controller: _scrollController,
-                                              physics:
-                                                  const AlwaysScrollableScrollPhysics(),
-                                              separatorBuilder:
-                                                  (context, idx) =>
-                                                      const Gap(10),
-                                              itemCount: messages.length,
-                                              scrollDirection: Axis.vertical,
-                                              itemBuilder: (context, idx) {
-                                                return Align(
-                                                  alignment:
-                                                      messages[idx].sender ==
+                                    const Gap(10),
+                                    Text(
+                                      matchedUser?['first_name'],
+                                      style: const TextStyle(fontSize: 24),
+                                    ),
+                                    const Gap(24),
+                                    Expanded(
+                                      child: messages.when(
+                                        data: (messages) {
+                                          final returnedWidget = messages
+                                                  .isNotEmpty
+                                              ? ListView.separated(
+                                                  controller: _scrollController,
+                                                  physics:
+                                                      const AlwaysScrollableScrollPhysics(),
+                                                  separatorBuilder:
+                                                      (context, idx) =>
+                                                          const Gap(10),
+                                                  itemCount: messages.length,
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  itemBuilder: (context, idx) {
+                                                    return Align(
+                                                      alignment: messages[idx]
+                                                                  .sender ==
                                                               currentUser?.id
                                                           ? Alignment.topRight
                                                           : Alignment.topLeft,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                      left: 16.0,
-                                                      right: 16,
-                                                    ),
-                                                    child: MessageBubble(
-                                                      messageObject:
-                                                          messages[idx],
-                                                      user: currentUser,
-                                                    ),
-                                                  ),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          left: 16.0,
+                                                          right: 16,
+                                                        ),
+                                                        child: MessageBubble(
+                                                          messageObject:
+                                                              messages[idx],
+                                                          user: currentUser,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  })
+                                              : const Text(
+                                                  'There are currently no messages. Feel free to start chatting',
+                                                  textAlign: TextAlign.center,
                                                 );
-                                              })
-                                          : const Text(
-                                              'There are currently no messages. Feel free to start chatting',
-                                              textAlign: TextAlign.center,
-                                            );
 
-                                      return returnedWidget;
-                                    },
-                                    error:
-                                        (Object error, StackTrace stackTrace) {
-                                      return const Text('Something went wrong');
-                                    },
-                                    loading: () => const Center(
-                                      child: CircularProgressIndicator(),
+                                          return returnedWidget;
+                                        },
+                                        error: (Object error,
+                                            StackTrace stackTrace) {
+                                          return const Text(
+                                              'Something went wrong');
+                                        },
+                                        loading: () => const Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      ),
                                     ),
+                                    const Gap(10),
+                                    isChatActive
+                                        ? const ChatTextInput()
+                                        : const SizedBox()
+                                  ],
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 8.0, right: 8),
+                                  child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: IconButton(
+                                        style: const ButtonStyle(
+                                            iconColor: WidgetStatePropertyAll(
+                                                Colors.red)),
+                                        onPressed: () => openReportDialog(
+                                            context, reportController),
+                                        icon: const Icon(
+                                          Icons.report,
+                                          size: 24,
+                                        )),
                                   ),
                                 ),
-                                const Gap(10),
-                                isChatActive
-                                    ? const ChatTextInput()
-                                    : const SizedBox()
                               ],
                             )
                           : Column(
