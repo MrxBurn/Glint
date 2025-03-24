@@ -63,19 +63,17 @@ class _HomePageRouterState extends ConsumerState<HomePageRouter> {
         bottomNavigationBar: userAsync != null && userAsync.isApproved
             ? CustomBottomNavigationBar(
                 currentIndex: currentIndex,
-                onTap: (value) => {
-                  if (currentIndex == 0 && value == 1 && isChatting)
-                    {
-                      openBox(context, ref),
-                      _customWidget = onTapCallBack(value, ref),
-                    },
-                  if (!isChatting)
-                    {
-                      ref
-                          .read(homeRouterNotifierProvider.notifier)
-                          .updateIndex(value),
-                      _customWidget = onTapCallBack(value, ref),
-                    }
+                onTap: (value) {
+                  if (currentIndex == 0 && value == 1 && isChatting) {
+                    openBox(context, ref);
+                    _customWidget = onTapCallBack(value, ref);
+                  }
+                  if (!isChatting) {
+                    ref
+                        .read(homeRouterNotifierProvider.notifier)
+                        .updateIndex(value);
+                    _customWidget = onTapCallBack(value, ref);
+                  }
                 },
               )
             : null);

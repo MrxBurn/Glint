@@ -52,8 +52,11 @@ Future<Map<String, dynamic>?> fetchMatchedUsers(Ref ref) async {
         'chat_id': existingChat[0]['existing_chat_id'],
       };
     }
-  } catch (error) {
-    throw Exception('Failed to fetch matched users');
+  } catch (error, stackTrace) {
+    // throw Exception('Failed to fetch matched users');
+
+    print(error);
+    print(stackTrace);
   }
   return null;
 }

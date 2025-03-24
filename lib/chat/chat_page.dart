@@ -60,6 +60,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                       bool? isChatActive =
                           (!!room['user_1_active'] && !!room['user_2_active']);
 
+                      print(matchedUser);
                       return isChatActive
                           ? Stack(
                               children: [
@@ -156,7 +157,10 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                                             iconColor: WidgetStatePropertyAll(
                                                 Colors.red)),
                                         onPressed: () => openReportDialog(
-                                            context, reportController),
+                                            context,
+                                            reportController,
+                                            matchedUser?['id'],
+                                            ref),
                                         icon: const Icon(
                                           Icons.report,
                                           size: 24,
