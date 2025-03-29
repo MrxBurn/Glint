@@ -3,11 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:glint/models/chat.dart';
 import 'package:glint/models/homeRouter.dart';
-import 'package:glint/models/isChatting.dart';
 import 'package:glint/models/matchUser.dart';
 import 'package:glint/models/message.dart';
 import 'package:glint/reusableWidgets/text_box.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void openReportDialog(BuildContext context, TextEditingController controller,
@@ -40,6 +38,8 @@ void openReportDialog(BuildContext context, TextEditingController controller,
               ref.invalidate(messageNotifierProvider);
               ref.invalidate(fetchMatchedUsersProvider);
               ref.invalidate(chatRoomNotifierProvider);
+
+              ref.read(homeRouterNotifierProvider.notifier).updateIndex(1);
 
               await ref
                   .read(chatRoomNotifierProvider.notifier)

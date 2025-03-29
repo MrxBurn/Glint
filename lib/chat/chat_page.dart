@@ -3,11 +3,11 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:glint/models/chat.dart';
-import 'package:glint/models/isChatting.dart';
 import 'package:glint/models/matchUser.dart';
 import 'package:glint/models/message.dart';
 import 'package:glint/models/user.dart';
 import 'package:glint/reusableWidgets/chat_text_input.dart';
+import 'package:glint/reusableWidgets/disconnect_chat_modal.dart';
 import 'package:glint/reusableWidgets/form_container.dart';
 import 'package:glint/reusableWidgets/header.dart';
 import 'package:glint/reusableWidgets/message_bubble.dart';
@@ -43,7 +43,6 @@ class _ChatPageState extends ConsumerState<ChatPage> {
           curve: Curves.easeOut,
         );
       }
-      ref.read(isChattingNotifierProvider.notifier).setIsChatting(true);
     });
 
     return SafeArea(
@@ -163,6 +162,19 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                                             ref),
                                         icon: const Icon(
                                           Icons.report,
+                                          size: 24,
+                                        )),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 8.0, left: 8),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: IconButton(
+                                        onPressed: () => openBox(context, ref),
+                                        icon: const Icon(
+                                          Icons.close,
                                           size: 24,
                                         )),
                                   ),

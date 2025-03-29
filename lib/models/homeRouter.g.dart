@@ -7,7 +7,7 @@ part of 'homeRouter.dart';
 // **************************************************************************
 
 String _$homeRouterNotifierHash() =>
-    r'9bb5eea2f16b9399d9781e12e492d1d8245c40e7';
+    r'315b5fc91da0dcc023842a4b5c8f2bae510e9db4';
 
 /// See also [HomeRouterNotifier].
 @ProviderFor(HomeRouterNotifier)

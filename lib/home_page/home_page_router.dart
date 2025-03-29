@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glint/models/homeRouter.dart';
-import 'package:glint/models/isChatting.dart';
 import 'package:glint/models/user.dart';
 import 'package:glint/my_account/my_account.dart';
 import 'package:glint/reusableWidgets/bottom_navigation_bar.dart';
@@ -24,22 +23,27 @@ class HomePageRouter extends ConsumerStatefulWidget {
 }
 
 class _HomePageRouterState extends ConsumerState<HomePageRouter> {
-  Widget _customWidget = const MyAccount();
-  Widget onTapCallBack(int currentIndex, WidgetRef ref) {
-    if (currentIndex == 0) {
-      return const SearchUserPage();
-    } else if (currentIndex == 1) {
-      return const MyAccount();
-    }
+  List<Widget> widgets = [
+    const SearchUserPage(),
+    const MyAccount(),
+  ];
+  // Widget onTapCallBack(int currentIndex, WidgetRef ref) {
+  //   if (currentIndex == 0) {
+  //     return const SearchUserPage();
+  //   } else if (currentIndex == 1) {
+  //     return const MyAccount();
+  //   }
 
-    return const Text('');
-  }
+  //   return const Text('');
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final currentIndex = ref.watch(homeRouterNotifierProvider);
-    final isChatting = ref.watch(isChattingNotifierProvider);
     final userAsync = ref.watch(userNotifierProvider).value;
+
+    final currentIndex = ref.watch(homeRouterNotifierProvider);
+
+    print(currentIndex);
 
     return Scaffold(
         extendBody: true,
@@ -56,7 +60,7 @@ class _HomePageRouterState extends ConsumerState<HomePageRouter> {
               backgroundColor: Colors.transparent,
             ),
             userAsync != null && userAsync.isApproved
-                ? _customWidget
+                ? widgets[currentIndex]
                 : const WaitingApprovalPage()
           ],
         ),
@@ -64,16 +68,9 @@ class _HomePageRouterState extends ConsumerState<HomePageRouter> {
             ? CustomBottomNavigationBar(
                 currentIndex: currentIndex,
                 onTap: (value) {
-                  if (currentIndex == 0 && value == 1 && isChatting) {
-                    openBox(context, ref);
-                    _customWidget = onTapCallBack(value, ref);
-                  }
-                  if (!isChatting) {
-                    ref
-                        .read(homeRouterNotifierProvider.notifier)
-                        .updateIndex(value);
-                    _customWidget = onTapCallBack(value, ref);
-                  }
+                  ref
+                      .read(homeRouterNotifierProvider.notifier)
+                      .updateIndex(value);
                 },
               )
             : null);

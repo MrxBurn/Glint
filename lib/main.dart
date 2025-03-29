@@ -59,20 +59,6 @@ class MyApp extends ConsumerWidget {
           loading: () => const Center(
                 child: CircularProgressIndicator(),
               )),
-
-      // StreamBuilder(
-      //     stream: isUserLoggedIn(),
-      //     builder: (context, AsyncSnapshot<AuthState> snapshot) {
-      //       if (snapshot.connectionState == ConnectionState.waiting) {
-      //         return const Center(
-      //           child: CircularProgressIndicator(),
-      //         );
-      //       }
-      //       if (snapshot.data?.session?.user != null) {
-      //         return const HomePageRouter();
-      //       }
-      //       return const LoginPage();
-      //     }),
       routes: {
         'loginPage': (context) => const LoginPage(),
         'registerPage': (context) => const RegisterPage(),

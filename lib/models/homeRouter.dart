@@ -9,7 +9,7 @@ class HomeRouterNotifier extends _$HomeRouterNotifier {
     return 1;
   }
 
-  void updateIndex(int newIndex) {
-    state = newIndex;
+  void updateIndex(int idx) {
+    state = idx;
   }
 }

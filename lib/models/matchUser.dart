@@ -11,7 +11,7 @@ Future<Map<String, dynamic>?> fetchMatchedUsers(Ref ref) async {
   final supabase = Supabase.instance.client;
 
   await ref
-      .watch(userNotifierProvider.notifier)
+      .read(userNotifierProvider.notifier)
       .updateUserNoRefetch({'is_active': true});
 
   final user = ref.read(userNotifierProvider).value as UserClass;

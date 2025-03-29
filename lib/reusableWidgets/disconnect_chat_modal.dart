@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:glint/models/chat.dart';
 import 'package:glint/models/homeRouter.dart';
-import 'package:glint/models/isChatting.dart';
 import 'package:glint/models/matchUser.dart';
 import 'package:glint/models/message.dart';
 
@@ -28,9 +27,6 @@ void openBox(BuildContext context, WidgetRef ref) {
             ),
             TextButton(
               onPressed: () async {
-                ref
-                    .read(isChattingNotifierProvider.notifier)
-                    .setIsChatting(false);
                 ref.read(homeRouterNotifierProvider.notifier).updateIndex(1);
 
                 ref.invalidate(messageNotifierProvider);
