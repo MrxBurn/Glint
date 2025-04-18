@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:glint/editPreferences/edit_preferences.dart';
 import 'package:glint/main.dart';
+import 'package:glint/models/encryption.dart';
 import 'package:glint/models/registeredUser.dart';
 import 'package:glint/reusableWidgets/camera_gallery_modal.dart';
 import 'package:glint/reusableWidgets/custom_elevated_button.dart';
@@ -16,6 +19,7 @@ import 'package:glint/utils/variables.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:glint/models/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyAccount extends ConsumerStatefulWidget {
   const MyAccount({
@@ -47,6 +51,8 @@ class _MyAccountState extends ConsumerState<MyAccount> {
   String? image;
 
   XFile? pickedImage;
+
+  EncryptionRepo encryptionRepo = EncryptionRepo();
 
   @override
   void didChangeDependencies() {
@@ -119,6 +125,26 @@ class _MyAccountState extends ConsumerState<MyAccount> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                ElevatedButton(
+                                    onPressed: () async {
+                                      final res =
+                                          await encryptionRepo.generateKeys();
+
+                                      await supabase.from('users').update({
+                                        'public_key': res.publicKey
+                                      }).eq('id',
+                                          supabase.auth.currentUser?.id ?? '');
+                                    },
+                                    child: const Text('Update public key')),
+                                ElevatedButton(
+                                    onPressed: () async {
+                                      final SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+
+                                      print(prefs
+                                          .getString('privateKey_${user.id}'));
+                                    },
+                                    child: const Text('Get local storage')),
                                 Align(
                                     alignment: Alignment.topRight,
                                     child: CustomElevatedButton(

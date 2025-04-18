@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:glint/models/chat.dart';
+import 'package:glint/models/encryption.dart';
 import 'package:glint/models/matchUser.dart';
 import 'package:glint/models/message.dart';
 import 'package:glint/models/user.dart';
@@ -13,6 +16,7 @@ import 'package:glint/reusableWidgets/header.dart';
 import 'package:glint/reusableWidgets/message_bubble.dart';
 import 'package:glint/reusableWidgets/report_modal.dart';
 import 'package:glint/utils/variables.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatPage extends ConsumerStatefulWidget {
   const ChatPage({super.key});
@@ -30,7 +34,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   Widget build(BuildContext context) {
     var messages = ref.watch(messageNotifierProvider);
     var currentUser = ref.read(userNotifierProvider).value;
-    final matchedUser = ref.read(fetchMatchedUsersProvider).value;
+    final matchedUser = ref.watch(fetchMatchedUsersProvider).value;
     final chatRoom = ref.watch(chatRoomNotifierProvider);
 
     TextEditingController reportController = TextEditingController();
@@ -132,6 +136,9 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                                         },
                                         error: (Object error,
                                             StackTrace stackTrace) {
+                                          print(error);
+                                          print(stackTrace);
+
                                           return const Text(
                                               'Something went wrong');
                                         },

@@ -16,6 +16,7 @@ class UserClass {
   final int maxAge;
   final bool isAuthFinished;
   final bool isApproved;
+  final String publicKey;
 
   UserClass(
       {required this.id,
@@ -28,22 +29,23 @@ class UserClass {
       required this.dob,
       required this.height,
       required this.isAuthFinished,
-      required this.isApproved});
+      required this.isApproved,
+      required this.publicKey});
 
   factory UserClass.fromMap(Map<String, dynamic> data) {
     return UserClass(
-      id: data['id'],
-      gender: data['gender'] as String,
-      hobbies: List<String>.from(data['hobbies']),
-      interestIn: data['interest_in'] as String,
-      lookingFor: data['looking_for'] as String,
-      dob: data['dob'] as String,
-      height: data['height'],
-      minAge: data['min_age'],
-      maxAge: data['max_age'],
-      isAuthFinished: data['is_auth_finished'],
-      isApproved: data['is_approved'],
-    );
+        id: data['id'],
+        gender: data['gender'] as String,
+        hobbies: List<String>.from(data['hobbies']),
+        interestIn: data['interest_in'] as String,
+        lookingFor: data['looking_for'] as String,
+        dob: data['dob'] as String,
+        height: data['height'],
+        minAge: data['min_age'],
+        maxAge: data['max_age'],
+        isAuthFinished: data['is_auth_finished'],
+        isApproved: data['is_approved'],
+        publicKey: data['public_key']);
   }
   factory UserClass.defaultUser() {
     return UserClass(
@@ -57,7 +59,8 @@ class UserClass {
         minAge: 0,
         maxAge: 0,
         isAuthFinished: false,
-        isApproved: false);
+        isApproved: false,
+        publicKey: '');
   }
 }
 
