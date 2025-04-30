@@ -5,7 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:glint/editPreferences/edit_preferences.dart';
 import 'package:glint/main.dart';
+import 'package:glint/models/chat.dart';
 import 'package:glint/models/encryption.dart';
+import 'package:glint/models/homeRouter.dart';
+import 'package:glint/models/matchUser.dart';
+import 'package:glint/models/message.dart';
+import 'package:glint/models/persistUserState.dart';
 import 'package:glint/models/registeredUser.dart';
 import 'package:glint/reusableWidgets/camera_gallery_modal.dart';
 import 'package:glint/reusableWidgets/custom_elevated_button.dart';
@@ -290,6 +295,14 @@ class _MyAccountState extends ConsumerState<MyAccount> {
                                     child: CustomElevatedButton(
                                   onPressed: () async {
                                     ref.invalidate(userNotifierProvider);
+                                    ref.invalidate(chatRoomNotifierProvider);
+                                    ref.invalidate(homeRouterNotifierProvider);
+                                    ref.invalidate(fetchMatchedUsersProvider);
+                                    ref.invalidate(messageNotifierProvider);
+                                    ref.invalidate(persistUserProvider);
+                                    ref.invalidate(
+                                        registeredUserNotifierProvider);
+
                                     await supabase.auth.signOut();
                                   },
                                   isLoading: false,

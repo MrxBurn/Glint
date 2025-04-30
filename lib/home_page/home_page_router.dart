@@ -27,23 +27,12 @@ class _HomePageRouterState extends ConsumerState<HomePageRouter> {
     const SearchUserPage(),
     const MyAccount(),
   ];
-  // Widget onTapCallBack(int currentIndex, WidgetRef ref) {
-  //   if (currentIndex == 0) {
-  //     return const SearchUserPage();
-  //   } else if (currentIndex == 1) {
-  //     return const MyAccount();
-  //   }
-
-  //   return const Text('');
-  // }
 
   @override
   Widget build(BuildContext context) {
     final userAsync = ref.watch(userNotifierProvider).value;
 
     final currentIndex = ref.watch(homeRouterNotifierProvider);
-
-    print(currentIndex);
 
     return Scaffold(
         extendBody: true,

@@ -30,6 +30,19 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 
   final ScrollController _scrollController = ScrollController();
 
+  late final String profileImageUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    final matchedUser = ref.read(fetchMatchedUsersProvider).value;
+    if (matchedUser != null) {
+      profileImageUrl = ref
+          .read(userNotifierProvider.notifier)
+          .getProfilePhoto(userId: matchedUser['id']);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var messages = ref.watch(messageNotifierProvider);
@@ -75,13 +88,8 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                                       child: CircleAvatar(
                                         radius: 45,
                                         backgroundColor: darkGreen,
-                                        foregroundImage: NetworkImage(
-                                          ref
-                                              .read(
-                                                  userNotifierProvider.notifier)
-                                              .getProfilePhoto(
-                                                  userId: matchedUser?['id']),
-                                        ),
+                                        foregroundImage:
+                                            NetworkImage(profileImageUrl),
                                       ),
                                     ),
                                     const Gap(10),

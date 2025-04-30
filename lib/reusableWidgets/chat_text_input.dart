@@ -8,7 +8,7 @@ import 'package:glint/models/user.dart';
 import 'package:glint/utils/variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void sendMessage(
+Future<void> sendMessage(
     WidgetRef ref,
     TextEditingController controller,
     Map<String, dynamic>? matchedUser,
@@ -17,6 +17,7 @@ void sendMessage(
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
   final derivedKey = await repo.deriveKey(
+      //TODO: Store this also in database or somewhere else
       prefs.getString('privateKey_${currentUser?.id}') ?? '',
       matchedUser?['public_key']);
 
@@ -89,8 +90,8 @@ class _ChatTextInputState extends ConsumerState<ChatTextInput> {
               ),
             ),
           ),
-          onSubmitted: (_) {
-            sendMessage(
+          onSubmitted: (_) async {
+            await sendMessage(
                 ref, inputController, matchedUser, currentUser, encryptionRepo);
             FocusScope.of(context).requestFocus(focusNode);
           },
@@ -99,8 +100,8 @@ class _ChatTextInputState extends ConsumerState<ChatTextInput> {
           alignment: Alignment.topRight,
           child: IconButton(
               onPressed: () async {
-                sendMessage(ref, inputController, matchedUser, currentUser,
-                    encryptionRepo);
+                await sendMessage(ref, inputController, matchedUser,
+                    currentUser, encryptionRepo);
                 FocusScope.of(context).requestFocus(focusNode);
               },
               icon: Icon(
