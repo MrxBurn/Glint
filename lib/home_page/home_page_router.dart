@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glint/models/encryption.dart';
+import 'package:glint/models/encryption_service.dart';
 import 'package:glint/models/homeRouter.dart';
 import 'package:glint/models/user.dart';
 import 'package:glint/my_account/my_account.dart';
@@ -8,6 +12,7 @@ import 'package:glint/reusableWidgets/bottom_navigation_bar.dart';
 import 'package:glint/reusableWidgets/disconnect_chat_modal.dart';
 import 'package:glint/search_user_page/search_user_page.dart';
 import 'package:glint/waitingApprovalPage/waiting_approval_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePageRouter extends ConsumerStatefulWidget {
   const HomePageRouter(
@@ -33,6 +38,10 @@ class _HomePageRouterState extends ConsumerState<HomePageRouter> {
     final userAsync = ref.watch(userNotifierProvider).value;
 
     final currentIndex = ref.watch(homeRouterNotifierProvider);
+
+    final isValid = ref.watch(encryptionServiceProvider);
+
+    print(isValid.value);
 
     return Scaffold(
         extendBody: true,

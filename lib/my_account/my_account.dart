@@ -313,6 +313,9 @@ class _MyAccountState extends ConsumerState<MyAccount> {
                           );
                         },
                         error: (Object error, StackTrace stackTrace) {
+                          print(error);
+                          print(stackTrace);
+
                           return const Text('Something went wrong');
                         },
                         loading: () {

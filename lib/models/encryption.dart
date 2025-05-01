@@ -90,6 +90,7 @@ class EncryptionRepo {
 
     return '';
   }
+
   //TODO: When sending message encrypt with derive key & decrypt when reading messages
   //Think how to fix if use removes his keys from local storage, how can I fix them
 }
