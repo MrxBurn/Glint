@@ -1,16 +1,33 @@
-# glint
+# Glint
 
-A new Flutter project.
+Glint is a dating app designed to be interactive and being able to find someone like you are at a speed dating show.
 
-## Getting Started
+### Tech Stack
 
-This project is a starting point for a Flutter application.
+- Flutter
+- Supabase
 
-A few resources to get you started if this is your first Flutter project:
+### Libraries
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Riverpod
+- Supabase
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### How to run locally
+
+- Get packages `flutter pub get`
+- Run `flutter run`
+
+### How to do schema migration
+
+- `cd database/`
+- `supabase init`
+- `supabase link --project-ref $PROJECT_ID`
+- `supabase db pull` - pulls the schema but not Auth and Storage
+- `npx supabase db pull --schema auth,storage` - pulls Auth & Storage
+
+Change to prod database
+
+- `supabase link --project-ref $PROJECT_ID`
+- `supabase start`
+- `supabase reset`
+- `supabase db push`
