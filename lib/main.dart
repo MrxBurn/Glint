@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:glint/authentication/login/login.dart';
 import 'package:glint/authentication/login/register.dart';
 import 'package:glint/chat/chat_page.dart';
+import 'package:glint/environments.dart';
 import 'package:glint/models/persistUserState.dart';
 import 'package:glint/my_account/my_account.dart';
 import 'package:glint/profile_image_upload/profile_image_upload.dart';
@@ -18,9 +19,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 Future<void> main() async {
   try {
     await Supabase.initialize(
-        url: 'https://xpkwqnlgvbdkoizpkqbf.supabase.co',
-        anonKey:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhwa3dxbmxndmJka29penBrcWJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc0MzE5NTUsImV4cCI6MjAzMzAwNzk1NX0.uHMSgmqBUCkRh-drLZapBwqnlOyNsRXqTiLFnysc7nI');
+        url: SupabaseEnv.supabaseUrl, anonKey: SupabaseEnv.supabaseAnnonKey);
   } catch (e) {
     print(e);
   }

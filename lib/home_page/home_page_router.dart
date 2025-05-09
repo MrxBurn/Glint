@@ -39,9 +39,7 @@ class _HomePageRouterState extends ConsumerState<HomePageRouter> {
 
     final currentIndex = ref.watch(homeRouterNotifierProvider);
 
-    final isValid = ref.watch(encryptionServiceProvider);
-
-    print(isValid.value);
+    ref.watch(encryptionServiceProvider);
 
     return Scaffold(
         extendBody: true,

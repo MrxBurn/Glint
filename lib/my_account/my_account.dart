@@ -130,26 +130,6 @@ class _MyAccountState extends ConsumerState<MyAccount> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ElevatedButton(
-                                    onPressed: () async {
-                                      final res =
-                                          await encryptionRepo.generateKeys();
-
-                                      await supabase.from('users').update({
-                                        'public_key': res.publicKey
-                                      }).eq('id',
-                                          supabase.auth.currentUser?.id ?? '');
-                                    },
-                                    child: const Text('Update public key')),
-                                ElevatedButton(
-                                    onPressed: () async {
-                                      final SharedPreferences prefs =
-                                          await SharedPreferences.getInstance();
-
-                                      print(prefs
-                                          .getString('privateKey_${user.id}'));
-                                    },
-                                    child: const Text('Get local storage')),
                                 Align(
                                     alignment: Alignment.topRight,
                                     child: CustomElevatedButton(
