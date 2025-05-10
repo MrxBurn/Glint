@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glint/models/encryption.dart';
-import 'package:glint/models/encryption_service.dart';
 import 'package:glint/models/homeRouter.dart';
 import 'package:glint/models/user.dart';
 import 'package:glint/my_account/my_account.dart';
@@ -38,8 +37,6 @@ class _HomePageRouterState extends ConsumerState<HomePageRouter> {
     final userAsync = ref.watch(userNotifierProvider).value;
 
     final currentIndex = ref.watch(homeRouterNotifierProvider);
-
-    ref.watch(encryptionServiceProvider);
 
     return Scaffold(
         extendBody: true,

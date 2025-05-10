@@ -57,8 +57,6 @@ class _MyAccountState extends ConsumerState<MyAccount> {
 
   XFile? pickedImage;
 
-  EncryptionRepo encryptionRepo = EncryptionRepo();
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -280,6 +278,11 @@ class _MyAccountState extends ConsumerState<MyAccount> {
                                     ref.invalidate(persistUserProvider);
                                     ref.invalidate(
                                         registeredUserNotifierProvider);
+
+                                    final SharedPreferences prefs =
+                                        await SharedPreferences.getInstance();
+
+                                    prefs.remove('privateKey_${user.id}');
 
                                     await supabase.auth.signOut();
                                   },

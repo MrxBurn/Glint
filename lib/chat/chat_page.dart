@@ -99,6 +99,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                                     Expanded(
                                       child: messages.when(
                                         data: (messages) {
+                                          print(messages);
                                           final returnedWidget = messages
                                                   .isNotEmpty
                                               ? ListView.separated(

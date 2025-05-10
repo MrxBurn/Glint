@@ -1,90 +1,31 @@
 import 'dart:convert';
-import 'dart:math';
 import 'dart:typed_data';
-import 'package:glint/main.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:webcrypto/webcrypto.dart';
 
-class JsonWebKeyPair {
-  const JsonWebKeyPair({
-    required this.privateKey,
-    required this.publicKey,
-  });
-  final String privateKey;
-  final String publicKey;
-}
+import 'package:encrypt/encrypt.dart';
 
-class EncryptionRepo {
-  Future<JsonWebKeyPair> generateKeys() async {
-    final keyPair = await EcdhPrivateKey.generateKey(EllipticCurve.p256);
-    final publicKeyJwk = await keyPair.publicKey.exportJsonWebKey();
-    final privateKeyJwk = await keyPair.privateKey.exportJsonWebKey();
+class MessageEncryptor {
+  final Key key;
+  final Encrypter _encrypter;
 
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+  MessageEncryptor(String keyString)
+      : key = Key.fromUtf8(keyString),
+        _encrypter = Encrypter(AES(Key.fromUtf8(keyString)));
 
-    await prefs.setString('privateKey_${supabase.auth.currentUser?.id}',
-        json.encode(privateKeyJwk));
+  String encrypt(String plainText) {
+    final iv = IV.fromSecureRandom(16); // Use a random IV
+    final encrypted = _encrypter.encrypt(plainText, iv: iv);
 
-    return JsonWebKeyPair(
-      privateKey: json.encode(privateKeyJwk),
-      publicKey: json.encode(publicKeyJwk),
-    );
+    // Combine IV + encrypted data and encode
+    final combined = iv.bytes + encrypted.bytes;
+    return base64Encode(combined);
   }
 
-  Future<List<int>> deriveKey(String senderJwk, String receiverJwk) async {
-    // Sender's key - Current user as you are the one sending the message
-    final senderPrivateKey = json.decode(senderJwk);
-    final senderEcdhKey = await EcdhPrivateKey.importJsonWebKey(
-      senderPrivateKey,
-      EllipticCurve.p256,
-    );
-    // Receiver's key - Matched user as he is getting the message
-    final receiverPublicKey = json.decode(receiverJwk);
-    final receiverEcdhKey = await EcdhPublicKey.importJsonWebKey(
-      receiverPublicKey,
-      EllipticCurve.p256,
-    );
-    // Generating CryptoKey
-    final derivedBits = await senderEcdhKey.deriveBits(256, receiverEcdhKey);
-    return derivedBits;
-  }
+  String decrypt(String combinedBase64) {
+    final combinedBytes = base64Decode(combinedBase64);
 
-  Uint8List generateIV() {
-    return Uint8List.fromList(
-        'GlintIV'.codeUnits); //STORE with message itself and randomise it
-  }
+    final iv = IV(Uint8List.fromList(combinedBytes.sublist(0, 16)));
+    final cipherText = Encrypted(Uint8List.fromList(combinedBytes.sublist(16)));
 
-  Future<String> encryptMessage(String message, List<int> deriveKey) async {
-    // Importing cryptoKey
-    final aesGcmSecretKey = await AesGcmSecretKey.importRawKey(deriveKey);
-    // Converting message into bytes
-    final messageBytes = Uint8List.fromList(message.codeUnits);
-    // Encrypting the message
-    final encryptedMessageBytes =
-        await aesGcmSecretKey.encryptBytes(messageBytes, generateIV());
-    // Converting encrypted message into String
-    final encryptedMessage = String.fromCharCodes(encryptedMessageBytes);
-    return encryptedMessage;
+    return _encrypter.decrypt(cipherText, iv: iv);
   }
-
-  Future<String> decryptMessage(
-      String encryptedMessage, List<int> deriveKey) async {
-    try {
-      // Importing cryptoKey
-      final aesGcmSecretKey = await AesGcmSecretKey.importRawKey(deriveKey);
-      // Converting message into bytes
-      final messageBytes = Uint8List.fromList(encryptedMessage.codeUnits);
-      // Decrypting the message
-      final decryptedMessageBytes =
-          await aesGcmSecretKey.decryptBytes(messageBytes, generateIV());
-      // Converting decrypted message into String
-      final decryptedMessage = String.fromCharCodes(decryptedMessageBytes);
-      return decryptedMessage;
-    } catch (err, stackTrace) {
-      throw Error();
-    }
-  }
-
-  //TODO: When sending message encrypt with derive key & decrypt when reading messages
-  //Think how to fix if use removes his keys from local storage, how can I fix them
 }

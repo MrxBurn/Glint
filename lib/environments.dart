@@ -8,4 +8,9 @@ abstract class SupabaseEnv {
     'SUPABASE_ANNON_KEY',
     defaultValue: '',
   );
+
+  static const String encryptionKey = String.fromEnvironment(
+    'ENCRYPTION_KEY',
+    defaultValue: '',
+  );
 }

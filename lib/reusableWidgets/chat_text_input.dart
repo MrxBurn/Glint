@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:glint/models/chat.dart';
 import 'package:glint/models/encryption.dart';
+import 'package:glint/models/encryptionService.dart';
 import 'package:glint/models/matchUser.dart';
 import 'package:glint/models/message.dart';
 import 'package:glint/models/user.dart';
@@ -13,16 +14,8 @@ Future<void> sendMessage(
     TextEditingController controller,
     Map<String, dynamic>? matchedUser,
     UserClass? currentUser,
-    EncryptionRepo repo) async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  final derivedKey = await repo.deriveKey(
-      //TODO: Store this also in database or somewhere else
-      prefs.getString('privateKey_${currentUser?.id}') ?? '',
-      matchedUser?['public_key']);
-
-  final encryptedMessage =
-      await repo.encryptMessage(controller.text, derivedKey);
+    Encryptionservice encryptionService) async {
+  final encryptedMessage = encryptionService.encryptMessage(controller.text);
 
   ref
       .read(messageNotifierProvider.notifier)
@@ -47,13 +40,12 @@ class _ChatTextInputState extends ConsumerState<ChatTextInput> {
 
   FocusNode focusNode = FocusNode();
 
-  EncryptionRepo encryptionRepo = EncryptionRepo();
-
   @override
   Widget build(BuildContext context) {
     final matchedUser = ref.watch(fetchMatchedUsersProvider).value;
-    final currentUser = ref.read(userNotifierProvider).value;
+    final currentUser = ref.watch(userNotifierProvider).value;
 
+    Encryptionservice encryptionservice = Encryptionservice();
     return Stack(
       children: [
         TextField(
@@ -89,8 +81,8 @@ class _ChatTextInputState extends ConsumerState<ChatTextInput> {
             ),
           ),
           onSubmitted: (_) async {
-            await sendMessage(
-                ref, inputController, matchedUser, currentUser, encryptionRepo);
+            await sendMessage(ref, inputController, matchedUser, currentUser,
+                encryptionservice);
             FocusScope.of(context).requestFocus(focusNode);
           },
         ),
@@ -99,7 +91,7 @@ class _ChatTextInputState extends ConsumerState<ChatTextInput> {
           child: IconButton(
               onPressed: () async {
                 await sendMessage(ref, inputController, matchedUser,
-                    currentUser, encryptionRepo);
+                    currentUser, encryptionservice);
                 FocusScope.of(context).requestFocus(focusNode);
               },
               icon: Icon(
