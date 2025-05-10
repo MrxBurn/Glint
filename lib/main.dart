@@ -72,7 +72,3 @@ class MyApp extends ConsumerWidget {
     );
   }
 }
-
-Stream<AuthState> isUserLoggedIn() {
-  return supabase.auth.onAuthStateChange;
-}

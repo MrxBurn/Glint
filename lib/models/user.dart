@@ -1,8 +1,7 @@
 import 'package:glint/main.dart';
+import 'package:glint/models/persistUserState.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-part 'user.g.dart';
 
 class UserClass {
   final String id;
@@ -65,19 +64,19 @@ class UserClass {
 }
 
 @riverpod
-class UserNotifier extends _$UserNotifier {
+class UserNotifier extends AsyncNotifier<UserClass> {
   @override
   Future<UserClass> build() async {
-    return await fetchUser();
+    final authState = await ref.watch(persistUserProvider.future);
+
+    return await fetchUser(authState);
   }
 
-  Future<UserClass> fetchUser() async {
-    final user = Supabase.instance.client.auth.currentUser;
-
+  Future<UserClass> fetchUser(AuthState authState) async {
     final response = await Supabase.instance.client
         .from('users')
         .select()
-        .eq('id', user?.id ?? '')
+        .eq('id', authState.session?.user.id ?? '')
         .single();
 
     return UserClass.fromMap(response);
@@ -114,3 +113,7 @@ class UserNotifier extends _$UserNotifier {
     return '';
   }
 }
+
+final userNotifierProvider = AsyncNotifierProvider<UserNotifier, UserClass>(
+  () => UserNotifier(),
+);
