@@ -95,7 +95,6 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
                           await uploadProfilePhoto(bytes, 'verificationPhoto',
                               'verificationPhotos', registeredUser);
 
-                          print(registeredUser);
                           await ref
                               .read(userNotifierProvider.notifier)
                               .updateUserNoRefetch(

@@ -6,6 +6,8 @@ import 'package:glint/models/matchUser.dart';
 import 'package:glint/models/message.dart';
 
 void openBox(BuildContext context, WidgetRef ref) {
+  ref.invalidate(chatRoomNotifierProvider);
+
   showDialog(
     context: context,
     builder: (BuildContext context) {

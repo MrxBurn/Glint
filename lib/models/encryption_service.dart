@@ -50,7 +50,6 @@ class EncryptionService extends AsyncNotifier<bool> {
         // Additional basic validation
         return derived.isNotEmpty;
       } catch (e) {
-        print('Key validation failed: $e');
         return false;
       }
     } else {

@@ -53,10 +53,7 @@ Future<Map<String, dynamic>?> fetchMatchedUsers(Ref ref) async {
       };
     }
   } catch (error, stackTrace) {
-    // throw Exception('Failed to fetch matched users');
-
-    print(error);
-    print(stackTrace);
+    throw Exception('Failed to fetch matched users');
   }
   return null;
 }

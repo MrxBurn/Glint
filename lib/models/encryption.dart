@@ -20,9 +20,6 @@ class EncryptionRepo {
     final publicKeyJwk = await keyPair.publicKey.exportJsonWebKey();
     final privateKeyJwk = await keyPair.privateKey.exportJsonWebKey();
 
-    print("PUBLIC: $publicKeyJwk");
-    print("PRIVATE: $privateKeyJwk");
-
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     await prefs.setString('privateKey_${supabase.auth.currentUser?.id}',
@@ -84,11 +81,8 @@ class EncryptionRepo {
       final decryptedMessage = String.fromCharCodes(decryptedMessageBytes);
       return decryptedMessage;
     } catch (err, stackTrace) {
-      print("Error: $err");
-      print("STACK: $stackTrace");
+      throw Error();
     }
-
-    return '';
   }
 
   //TODO: When sending message encrypt with derive key & decrypt when reading messages

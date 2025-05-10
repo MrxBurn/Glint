@@ -14,8 +14,7 @@ Future<void> uploadProfilePhoto(Uint8List? photo, String photoName,
           );
     }
   } catch (e, stackTrace) {
-    print(e.toString());
-    print(stackTrace);
+    throw Exception(e);
   }
 }
 
@@ -30,11 +29,8 @@ Future<void> updateProfilePhoto(Uint8List? photo, String photoName,
               upsert: true,
             ),
           );
-
-      print('cal');
     }
   } catch (e, stackTrace) {
-    print(e.toString());
-    print(stackTrace);
+    throw Exception(e);
   }
 }

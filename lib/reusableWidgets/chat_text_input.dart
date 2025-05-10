@@ -21,8 +21,6 @@ Future<void> sendMessage(
       prefs.getString('privateKey_${currentUser?.id}') ?? '',
       matchedUser?['public_key']);
 
-  print("DERIVED KEY ON INPUT: $derivedKey");
-
   final encryptedMessage =
       await repo.encryptMessage(controller.text, derivedKey);
 

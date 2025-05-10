@@ -75,8 +75,6 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                     data: (room) {
                       bool? isChatActive =
                           (!!room['user_1_active'] && !!room['user_2_active']);
-
-                      print(matchedUser);
                       return isChatActive
                           ? Stack(
                               children: [
@@ -144,9 +142,6 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                                         },
                                         error: (Object error,
                                             StackTrace stackTrace) {
-                                          print(error);
-                                          print(stackTrace);
-
                                           return const Text(
                                               'Something went wrong');
                                         },

@@ -74,9 +74,7 @@ class _MyAccountState extends ConsumerState<MyAccount> {
     });
 
     final bytes = await pickedImage?.readAsBytes();
-//TODO: Fix updateProfilePhoto - some caching issues
     if (bytes != null) {
-      print('maimuta');
       await updateProfilePhoto(bytes, 'profilePhoto', 'profilePhotos',
           supabase.auth.currentUser?.id ?? '');
 
@@ -293,9 +291,7 @@ class _MyAccountState extends ConsumerState<MyAccount> {
                           );
                         },
                         error: (Object error, StackTrace stackTrace) {
-                          print(error);
-                          print(stackTrace);
-
+                          print('me here');
                           return const Text('Something went wrong');
                         },
                         loading: () {
