@@ -16,6 +16,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       extendBody: true,
       body: Stack(
         fit: StackFit.expand,
@@ -24,20 +25,25 @@ class _CustomScaffoldState extends State<CustomScaffold> {
             'assets/illustrations/background.svg',
             fit: BoxFit.cover,
           ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppBar(
-                automaticallyImplyLeading: widget.shouldNavigateBack,
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: widget.children,
+          SafeArea(
+            child: Column(
+              children: [
+                AppBar(
+                  automaticallyImplyLeading: widget.shouldNavigateBack,
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
                 ),
-              )
-            ],
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+                    ),
+                    child: widget.children,
+                  ),
+                ),
+              ],
+            ),
           )
         ],
       ),

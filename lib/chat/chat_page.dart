@@ -1,11 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:glint/models/chat.dart';
-import 'package:glint/models/encryption.dart';
 import 'package:glint/models/matchUser.dart';
 import 'package:glint/models/message.dart';
 import 'package:glint/models/user.dart';
@@ -16,7 +13,6 @@ import 'package:glint/reusableWidgets/header.dart';
 import 'package:glint/reusableWidgets/message_bubble.dart';
 import 'package:glint/reusableWidgets/report_modal.dart';
 import 'package:glint/utils/variables.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatPage extends ConsumerStatefulWidget {
   const ChatPage({super.key});
