@@ -61,7 +61,6 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     return SafeArea(
       child: Column(
         children: [
-          const Header(),
           Expanded(
             child: Padding(
               padding: paddingLRT,
